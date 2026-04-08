@@ -1,18 +1,27 @@
-// Importamos Router desde express para crear un conjunto de rutas
-import { Router } from 'express';
 
-// Importamos los métodos que definimos en services/userService.js
+import { Router } from 'express';
 import { getAllUsers, getUserByEmail, creatreUser } from '../services/userService.js';
 
-// Creamos una instancia de Router
 const userRouter = Router();
 
-// Ruta para obtener todos los usuarios (GET /users)
 userRouter.get('/users', getAllUsers);
 
-userRouter.get('/users/:email', getUserByEmail);
+userRouter.get('/users/:email', (req, res) => {
+  try {
+    getUserDTO.parse(req.params);
+    return getUserByEmail(req, res);
+  } catch (err) {
+    return res.status(400).json({ error: err.errors ?? err.message });
+  }
+});
 
-userRouter.post('/users', creatreUser);
+userRouter.post('/users', (req, res) => {
+  try {
+    req.body = createUserDTO.parse(req.body);
+    return creatreUser(req, res);
+  } catch (err) {
+    return res.status(400).json({ error: err.errors ?? err.message });
+  }
+});
 
-// Exportamos el router para usarlo en index.js
 export default userRouter;

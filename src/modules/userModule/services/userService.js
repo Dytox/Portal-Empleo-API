@@ -1,17 +1,12 @@
-// Importamos nuestro pool de conexiones a la BD
+
 import { pool } from '../../../common/connections/db-connection.js';
 
-// ======================================
-// Obtener todos los usuarios
-// ======================================
 export const getAllUsers = async (req, res) => {
   try {
     // Ejecutamos consulta SQL
     const result = await pool.query('SELECT * FROM public.user');
-    // Devolvemos los resultados en formato JSON
     res.json(result.rows);
   } catch (err) {
-    // Si ocurre un error, devolvemos el mensaje de error
     res.status(500).json({ error: err.message });
   }
 };
