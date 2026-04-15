@@ -1,22 +1,16 @@
-
-import { Router } from 'express';
 import { createUserSchema, updateUserSchema, getUserParamsSchema } from '../../../common/schemas/user.schemas.js';
 import * as userService from '../services/userService.js';
 
-const userRouter = Router();
-
-// Get all users
-userRouter.get('/users', async (req, res) => {
+export const getAllUsers = async (req, res) => {
   try {
     const users = await userService.getAllUsers();
     res.json(users);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
+};
 
-// Get user by ID
-userRouter.get('/users/:id', async (req, res) => {
+export const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
     if (!Number.isInteger(Number(id))) {
@@ -30,10 +24,9 @@ userRouter.get('/users/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
+};
 
-// Get user by email
-userRouter.get('/users/email/:email', async (req, res) => {
+export const getUserByEmail = async (req, res) => {
   try {
     const validatedParams = getUserParamsSchema.parse({ email: req.params.email });
     const user = await userService.getUserByEmail(validatedParams.email);
@@ -47,10 +40,9 @@ userRouter.get('/users/email/:email', async (req, res) => {
     }
     res.status(500).json({ error: err.message });
   }
-});
+};
 
-// Create user
-userRouter.post('/users', async (req, res) => {
+export const createUser = async (req, res) => {
   try {
     const validatedData = createUserSchema.parse(req.body);
     const user = await userService.createUser(validatedData);
@@ -61,10 +53,9 @@ userRouter.post('/users', async (req, res) => {
     }
     res.status(400).json({ error: err.message });
   }
-});
+};
 
-// Update user
-userRouter.put('/users/:id', async (req, res) => {
+export const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
     if (!Number.isInteger(Number(id))) {
@@ -82,10 +73,9 @@ userRouter.put('/users/:id', async (req, res) => {
     }
     res.status(400).json({ error: err.message });
   }
-});
+};
 
-// Delete user
-userRouter.delete('/users/:id', async (req, res) => {
+export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
     if (!Number.isInteger(Number(id))) {
@@ -99,6 +89,4 @@ userRouter.delete('/users/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
-
-export default userRouter;
+};
