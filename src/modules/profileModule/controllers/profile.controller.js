@@ -1,4 +1,3 @@
-import { createProfileSchema, updateProfileSchema } from '../../../common/schemas/profile.schemas.js';
 import * as profileService from '../services/profile.service.js';
 
 export const getAllProfiles = async (req, res) => {
@@ -44,13 +43,9 @@ export const getProfileByUserId = async (req, res) => {
 
 export const createProfile = async (req, res) => {
   try {
-    const validatedData = createProfileSchema.parse(req.body);
-    const profile = await profileService.createProfile(validatedData);
+    const profile = await profileService.createProfile(req.body);
     res.status(201).json(profile);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };
@@ -61,16 +56,12 @@ export const updateProfile = async (req, res) => {
     if (!Number.isInteger(Number(id))) {
       return res.status(400).json({ error: 'Invalid ID format' });
     }
-    const validatedData = updateProfileSchema.parse({ id: Number(id), ...req.body });
-    const profile = await profileService.updateProfile(Number(id), validatedData);
+    const profile = await profileService.updateProfile(Number(id), req.body);
     if (!profile) {
       return res.status(404).json({ error: 'Profile not found' });
     }
     res.json(profile);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };

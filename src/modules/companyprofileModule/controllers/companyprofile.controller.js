@@ -1,4 +1,3 @@
-import { createCompanyProfileSchema, updateCompanyProfileSchema } from '../../../common/schemas/companyprofile.schemas.js';
 import * as companyProfileService from '../services/companyprofile.service.js';
 
 export const getAllCompanyProfiles = async (req, res) => {
@@ -44,13 +43,9 @@ export const getCompanyProfileByUserId = async (req, res) => {
 
 export const createCompanyProfile = async (req, res) => {
   try {
-    const validatedData = createCompanyProfileSchema.parse(req.body);
-    const profile = await companyProfileService.createCompanyProfile(validatedData);
+    const profile = await companyProfileService.createCompanyProfile(req.body);
     res.status(201).json(profile);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };
@@ -61,16 +56,12 @@ export const updateCompanyProfile = async (req, res) => {
     if (!Number.isInteger(Number(id))) {
       return res.status(400).json({ error: 'Invalid ID format' });
     }
-    const validatedData = updateCompanyProfileSchema.parse({ id: Number(id), ...req.body });
-    const profile = await companyProfileService.updateCompanyProfile(Number(id), validatedData);
+    const profile = await companyProfileService.updateCompanyProfile(Number(id), req.body);
     if (!profile) {
       return res.status(404).json({ error: 'Company profile not found' });
     }
     res.json(profile);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };

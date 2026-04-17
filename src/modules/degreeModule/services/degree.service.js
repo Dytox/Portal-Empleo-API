@@ -23,10 +23,10 @@ export const getDegreeById = async (id) => {
 
 export const createDegree = async (degreeData) => {
   try {
-    const { degree_name } = degreeData;
+    const { id, degree_name } = degreeData;
     const result = await pool.query(
-      'INSERT INTO public.degrees (degree_name) VALUES ($1) RETURNING *',
-      [degree_name]
+      'INSERT INTO public.degrees (id, degree_name) VALUES ($1, $2) RETURNING *',
+      [id, degree_name]
     );
     return result.rows[0];
   } catch (err) {

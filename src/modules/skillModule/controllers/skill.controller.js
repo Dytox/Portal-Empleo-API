@@ -1,4 +1,3 @@
-import { createSkillSchema, updateSkillSchema, createProfileSkillSchema } from '../../../common/schemas/skill.schemas.js';
 import * as skillService from '../services/skill.service.js';
 
 // Skill handlers
@@ -29,13 +28,9 @@ export const getSkillById = async (req, res) => {
 
 export const createSkill = async (req, res) => {
   try {
-    const validatedData = createSkillSchema.parse(req.body);
-    const skill = await skillService.createSkill(validatedData);
+    const skill = await skillService.createSkill(req.body);
     res.status(201).json(skill);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };
@@ -46,16 +41,12 @@ export const updateSkill = async (req, res) => {
     if (!Number.isInteger(Number(id))) {
       return res.status(400).json({ error: 'Invalid ID format' });
     }
-    const validatedData = updateSkillSchema.parse({ id: Number(id), ...req.body });
-    const skill = await skillService.updateSkill(Number(id), validatedData);
+    const skill = await skillService.updateSkill(Number(id), req.body);
     if (!skill) {
       return res.status(404).json({ error: 'Skill not found' });
     }
     res.json(skill);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };
@@ -117,13 +108,9 @@ export const getProfileSkillsByProfileId = async (req, res) => {
 
 export const createProfileSkill = async (req, res) => {
   try {
-    const validatedData = createProfileSkillSchema.parse(req.body);
-    const profileSkill = await skillService.createProfileSkill(validatedData);
+    const profileSkill = await skillService.createProfileSkill(req.body);
     res.status(201).json(profileSkill);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };

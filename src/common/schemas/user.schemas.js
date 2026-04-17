@@ -26,10 +26,6 @@ export const createUserSchema = z
 
 export const updateUserSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "User ID",
-      example: 1,
-    }),
     email: z.string().email("Email must be valid").optional().meta({
       description: "User email address",
       example: "newemail@example.com",

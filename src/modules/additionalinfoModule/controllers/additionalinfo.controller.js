@@ -1,4 +1,3 @@
-import { createAdditionalInfoSchema, updateAdditionalInfoSchema } from '../../../common/schemas/additionalinfo.schemas.js';
 import * as additionalInfoService from '../services/additionalinfo.service.js';
 
 export const getAllAdditionalInfo = async (req, res) => {
@@ -28,13 +27,9 @@ export const getAdditionalInfoById = async (req, res) => {
 
 export const createAdditionalInfo = async (req, res) => {
   try {
-    const validatedData = createAdditionalInfoSchema.parse(req.body);
-    const info = await additionalInfoService.createAdditionalInfo(validatedData);
+    const info = await additionalInfoService.createAdditionalInfo(req.body);
     res.status(201).json(info);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };
@@ -45,16 +40,12 @@ export const updateAdditionalInfo = async (req, res) => {
     if (!Number.isInteger(Number(id))) {
       return res.status(400).json({ error: 'Invalid ID format' });
     }
-    const validatedData = updateAdditionalInfoSchema.parse({ id: Number(id), ...req.body });
-    const info = await additionalInfoService.updateAdditionalInfo(Number(id), validatedData);
+    const info = await additionalInfoService.updateAdditionalInfo(Number(id), req.body);
     if (!info) {
       return res.status(404).json({ error: 'Additional info not found' });
     }
     res.json(info);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };

@@ -38,10 +38,6 @@ export const createProfileSchema = z
 
 export const updateProfileSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "Profile ID",
-      example: 1,
-    }),
     name: z.string().min(1).max(50).optional().meta({
       description: "First name",
       example: "Juan",
@@ -54,7 +50,7 @@ export const updateProfileSchema = z
       description: "Phone number",
       example: 23456789,
     }),
-    external_link: z.string().url().optional().meta({
+    external_link: z.string().optional().meta({
       description: "External profile link",
       example: "https://linkedin.com/in/juan-perez",
     }),

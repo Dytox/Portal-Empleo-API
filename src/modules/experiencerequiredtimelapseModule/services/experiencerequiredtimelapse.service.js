@@ -23,10 +23,10 @@ export const getExperienceRequiredTimelapsesById = async (id) => {
 
 export const createExperienceRequiredTimelapses = async (timelapsesData) => {
   try {
-    const { experience_timelapse_name } = timelapsesData;
+    const { id, experience_timelapse_name } = timelapsesData;
     const result = await pool.query(
-      'INSERT INTO public.experience_required_timelapses (experience_timelapse_name) VALUES ($1) RETURNING *',
-      [experience_timelapse_name]
+      'INSERT INTO public.experience_required_timelapses (id, experience_timelapse_name) VALUES ($1, $2) RETURNING *',
+      [id, experience_timelapse_name]
     );
     return result.rows[0];
   } catch (err) {

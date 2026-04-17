@@ -1,4 +1,3 @@
-import { createJobPostSchema, updateJobPostSchema } from '../../../common/schemas/jobpost.schemas.js';
 import * as jobPostService from '../services/jobpost.service.js';
 
 export const getAllJobPosts = async (req, res) => {
@@ -41,13 +40,9 @@ export const getJobPostsByCompanyId = async (req, res) => {
 
 export const createJobPost = async (req, res) => {
   try {
-    const validatedData = createJobPostSchema.parse(req.body);
-    const post = await jobPostService.createJobPost(validatedData);
+    const post = await jobPostService.createJobPost(req.body);
     res.status(201).json(post);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };
@@ -55,19 +50,12 @@ export const createJobPost = async (req, res) => {
 export const updateJobPost = async (req, res) => {
   try {
     const { id } = req.params;
-    if (!Number.isInteger(Number(id))) {
-      return res.status(400).json({ error: 'Invalid ID format' });
-    }
-    const validatedData = updateJobPostSchema.parse({ id: Number(id), ...req.body });
-    const post = await jobPostService.updateJobPost(Number(id), validatedData);
+    const post = await jobPostService.updateJobPost(Number(id), req.body);
     if (!post) {
       return res.status(404).json({ error: 'Job post not found' });
     }
     res.json(post);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };

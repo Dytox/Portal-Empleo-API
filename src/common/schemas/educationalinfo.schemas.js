@@ -26,10 +26,6 @@ export const createEducationalInfoSchema = z
 
 export const updateEducationalInfoSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "Educational info ID",
-      example: 1,
-    }),
     degree_id: z.number().int().positive().optional().meta({
       description: "Degree ID",
       example: 1,

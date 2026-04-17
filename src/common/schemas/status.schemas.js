@@ -2,6 +2,10 @@ import z from "zod";
 
 export const createStatusSchema = z
   .object({
+    id: z.number().int().positive().meta({
+      description: "Status ID",
+      example: 1,
+    }),
     status_name: z.string().min(1).meta({
       description: "Status name",
       example: "Active",
@@ -14,10 +18,6 @@ export const createStatusSchema = z
 
 export const updateStatusSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "Status ID",
-      example: 1,
-    }),
     status_name: z.string().min(1).meta({
       description: "Status name",
       example: "Inactive",

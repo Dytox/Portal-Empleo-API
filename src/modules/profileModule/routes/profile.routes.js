@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { validateBody } from '../../../common/middlewares/validateRequest.middleware.js';
+import { createProfileSchema, updateProfileSchema } from '../../../common/schemas/profile.schemas.js';
 import {
   getAllProfiles,
   getProfileById,
@@ -20,10 +22,10 @@ profileRouter.get('/profiles/:id', getProfileById);
 profileRouter.get('/users/:userId/profile', getProfileByUserId);
 
 // Create profile
-profileRouter.post('/profiles', createProfile);
+profileRouter.post('/profiles', validateBody(createProfileSchema), createProfile);
 
 // Update profile
-profileRouter.put('/profiles/:id', updateProfile);
+profileRouter.put('/profiles/:id', validateBody(updateProfileSchema), updateProfile);
 
 // Delete profile
 profileRouter.delete('/profiles/:id', deleteProfile);

@@ -23,10 +23,10 @@ export const getStatusById = async (id) => {
 
 export const createStatus = async (statusData) => {
   try {
-    const { status_name } = statusData;
+    const { id, status_name } = statusData;
     const result = await pool.query(
-      'INSERT INTO public.status (status_name) VALUES ($1) RETURNING *',
-      [status_name]
+      'INSERT INTO public.status (id, status_name) VALUES ($1, $2) RETURNING *',
+      [id, status_name]
     );
     return result.rows[0];
   } catch (err) {

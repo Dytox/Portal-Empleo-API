@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { validateBody } from '../../../common/middlewares/validateRequest.middleware.js';
+import { createWorkExperienceSchema, updateWorkExperienceSchema } from '../../../common/schemas/workexperience.schemas.js';
 import {
   getAllWorkExperiences,
   getWorkExperienceById,
@@ -20,10 +22,10 @@ workexperienceRouter.get('/work-experiences/:id', getWorkExperienceById);
 workexperienceRouter.get('/profiles/:profileId/work-experiences', getWorkExperiencesByProfileId);
 
 // Create work experience
-workexperienceRouter.post('/work-experiences', createWorkExperience);
+workexperienceRouter.post('/work-experiences', validateBody(createWorkExperienceSchema), createWorkExperience);
 
 // Update work experience
-workexperienceRouter.put('/work-experiences/:id', updateWorkExperience);
+workexperienceRouter.put('/work-experiences/:id', validateBody(updateWorkExperienceSchema), updateWorkExperience);
 
 // Delete work experience
 workexperienceRouter.delete('/work-experiences/:id', deleteWorkExperience);

@@ -1,4 +1,3 @@
-import { createDegreeSchema, updateDegreeSchema } from '../../../common/schemas/degree.schemas.js';
 import * as degreeService from '../services/degree.service.js';
 
 export const getAllDegrees = async (req, res) => {
@@ -28,13 +27,9 @@ export const getDegreeById = async (req, res) => {
 
 export const createDegree = async (req, res) => {
   try {
-    const validatedData = createDegreeSchema.parse(req.body);
-    const degree = await degreeService.createDegree(validatedData);
+    const degree = await degreeService.createDegree(req.body);
     res.status(201).json(degree);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };
@@ -45,16 +40,12 @@ export const updateDegree = async (req, res) => {
     if (!Number.isInteger(Number(id))) {
       return res.status(400).json({ error: 'Invalid ID format' });
     }
-    const validatedData = updateDegreeSchema.parse({ id: Number(id), ...req.body });
-    const degree = await degreeService.updateDegree(Number(id), validatedData);
+    const degree = await degreeService.updateDegree(Number(id), req.body);
     if (!degree) {
       return res.status(404).json({ error: 'Degree not found' });
     }
     res.json(degree);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };

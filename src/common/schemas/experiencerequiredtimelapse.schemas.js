@@ -2,6 +2,10 @@ import z from "zod";
 
 export const createExperienceRequiredTimelapsesSchema = z
   .object({
+    id: z.number().int().positive().meta({
+      description: "Experience timelapse ID",
+      example: 1,
+    }),
     experience_timelapse_name: z.string().min(1).meta({
       description: "Experience timelapse name",
       example: "2-3 years",
@@ -14,10 +18,6 @@ export const createExperienceRequiredTimelapsesSchema = z
 
 export const updateExperienceRequiredTimelapsesSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "Experience timelapse ID",
-      example: 1,
-    }),
     experience_timelapse_name: z.string().min(1).meta({
       description: "Experience timelapse name",
       example: "3-5 years",

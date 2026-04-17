@@ -34,10 +34,6 @@ export const createAdditionalInfoSchema = z
 
 export const updateAdditionalInfoSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "Additional info ID",
-      example: 1,
-    }),
     about_company: z.string().optional().meta({
       description: "About company",
       example: "We are a leading tech company",

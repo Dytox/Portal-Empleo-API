@@ -2,6 +2,10 @@ import z from "zod";
 
 export const createIndustrySchema = z
   .object({
+    id: z.number().int().positive().meta({
+      description: "Industry ID",
+      example: 1,
+    }),
     industry_name: z.string().min(1).meta({
       description: "Industry name",
       example: "Technology",
@@ -14,10 +18,6 @@ export const createIndustrySchema = z
 
 export const updateIndustrySchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "Industry ID",
-      example: 1,
-    }),
     industry_name: z.string().min(1).meta({
       description: "Industry name",
       example: "Finance",

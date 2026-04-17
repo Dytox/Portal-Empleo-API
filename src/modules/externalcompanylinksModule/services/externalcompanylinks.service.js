@@ -23,10 +23,10 @@ export const getExternalCompanyLinksById = async (id) => {
 
 export const createExternalCompanyLinks = async (linksData) => {
   try {
-    const { link } = linksData;
+    const { id, link } = linksData;
     const result = await pool.query(
-      'INSERT INTO public.external_company_links (link) VALUES ($1) RETURNING *',
-      [link]
+      'INSERT INTO public.external_company_links (id, link) VALUES ($1, $2) RETURNING *',
+      [id, link]
     );
     return result.rows[0];
   } catch (err) {

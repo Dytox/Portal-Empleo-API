@@ -38,10 +38,6 @@ export const createJobPostSchema = z
 
 export const updateJobPostSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "Job post ID",
-      example: 1,
-    }),
     title: z.string().min(1).optional().meta({
       description: "Job title",
       example: "Senior Developer",

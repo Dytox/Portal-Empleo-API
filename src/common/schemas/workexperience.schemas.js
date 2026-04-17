@@ -34,10 +34,6 @@ export const createWorkExperienceSchema = z
 
 export const updateWorkExperienceSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "Work experience ID",
-      example: 1,
-    }),
     title: z.string().min(1).optional().meta({
       description: "Job title",
       example: "Senior Developer",

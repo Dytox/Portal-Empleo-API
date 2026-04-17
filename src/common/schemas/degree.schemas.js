@@ -2,6 +2,10 @@ import z from "zod";
 
 export const createDegreeSchema = z
   .object({
+    id: z.number().int().positive().meta({
+      description: "Degree ID",
+      example: 1,
+    }),
     degree_name: z.string().min(1).meta({
       description: "Degree name",
       example: "Bachelor of Science in Computer Science",
@@ -14,10 +18,6 @@ export const createDegreeSchema = z
 
 export const updateDegreeSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "Degree ID",
-      example: 1,
-    }),
     degree_name: z.string().min(1).meta({
       description: "Degree name",
       example: "Master of Science in Computer Science",

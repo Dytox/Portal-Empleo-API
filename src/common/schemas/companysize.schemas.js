@@ -2,6 +2,10 @@ import z from "zod";
 
 export const createCompanySizeSchema = z
   .object({
+    id: z.number().int().positive().meta({
+      description: "Company size ID",
+      example: 1,
+    }),
     size_name: z.string().min(1).meta({
       description: "Company size name",
       example: "Small (1-50 employees)",
@@ -14,10 +18,6 @@ export const createCompanySizeSchema = z
 
 export const updateCompanySizeSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "Company size ID",
-      example: 1,
-    }),
     size_name: z.string().min(1).meta({
       description: "Company size name",
       example: "Medium (50-500 employees)",

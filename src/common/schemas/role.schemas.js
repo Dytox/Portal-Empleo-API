@@ -2,6 +2,10 @@ import z from "zod";
 
 export const createRoleSchema = z
   .object({
+    id: z.number().int().positive().meta({
+      description: "Role ID",
+      example: 1,
+    }),
     name: z.string().min(1).max(50).meta({
       description: "Role name",
       example: "Admin",
@@ -14,10 +18,6 @@ export const createRoleSchema = z
 
 export const updateRoleSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "Role ID",
-      example: 1,
-    }),
     name: z.string().min(1).max(50).meta({
       description: "Role name",
       example: "Editor",

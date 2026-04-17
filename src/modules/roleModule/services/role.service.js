@@ -23,10 +23,10 @@ export const getRoleById = async (id) => {
 
 export const createRole = async (roleData) => {
   try {
-    const { name } = roleData;
+    const { id, name } = roleData;
     const result = await pool.query(
-      'INSERT INTO public.roles (name) VALUES ($1) RETURNING *',
-      [name]
+      'INSERT INTO public.roles (id, name) VALUES ($1, $2) RETURNING *',
+      [id, name]
     );
     return result.rows[0];
   } catch (err) {

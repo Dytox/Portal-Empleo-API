@@ -23,10 +23,10 @@ export const getSkillById = async (id) => {
 
 export const createSkill = async (skillData) => {
   try {
-    const { skill_name } = skillData;
+    const { id, skill_name } = skillData;
     const result = await pool.query(
-      'INSERT INTO public.skills (skill_name) VALUES ($1) RETURNING *',
-      [skill_name]
+      'INSERT INTO public.skills (id, skill_name) VALUES ($1, $2) RETURNING *',
+      [id, skill_name]
     );
     return result.rows[0];
   } catch (err) {

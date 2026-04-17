@@ -2,7 +2,11 @@ import z from "zod";
 
 export const createExternalCompanyLinksSchema = z
   .object({
-    link: z.string().url().meta({
+    id: z.number().int().positive().meta({
+      description: "External links ID",
+      example: 1,
+    }),
+    link: z.string().meta({
       description: "External company link",
       example: "https://linkedin.com/company/techcorp",
     }),
@@ -14,11 +18,7 @@ export const createExternalCompanyLinksSchema = z
 
 export const updateExternalCompanyLinksSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "External links ID",
-      example: 1,
-    }),
-    link: z.string().url().meta({
+    link: z.string().meta({
       description: "External company link",
       example: "https://linkedin.com/company/techcorp",
     }),

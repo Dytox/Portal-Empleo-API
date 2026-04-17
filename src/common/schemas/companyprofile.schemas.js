@@ -30,10 +30,6 @@ export const createCompanyProfileSchema = z
 
 export const updateCompanyProfileSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "Company profile ID",
-      example: 1,
-    }),
     company_name: z.string().min(1).max(100).optional().meta({
       description: "Company name",
       example: "TechCorp Inc",

@@ -1,4 +1,3 @@
-import { createRoleSchema, updateRoleSchema } from '../../../common/schemas/role.schemas.js';
 import * as roleService from '../services/role.service.js';
 
 export const getAllRoles = async (req, res) => {
@@ -28,13 +27,9 @@ export const getRoleById = async (req, res) => {
 
 export const createRole = async (req, res) => {
   try {
-    const validatedData = createRoleSchema.parse(req.body);
-    const role = await roleService.createRole(validatedData);
+    const role = await roleService.createRole(req.body);
     res.status(201).json(role);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };
@@ -45,16 +40,12 @@ export const updateRole = async (req, res) => {
     if (!Number.isInteger(Number(id))) {
       return res.status(400).json({ error: 'Invalid ID format' });
     }
-    const validatedData = updateRoleSchema.parse({ id: Number(id), ...req.body });
-    const role = await roleService.updateRole(Number(id), validatedData);
+    const role = await roleService.updateRole(Number(id), req.body);
     if (!role) {
       return res.status(404).json({ error: 'Role not found' });
     }
     res.json(role);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };

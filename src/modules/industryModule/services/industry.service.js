@@ -23,10 +23,10 @@ export const getIndustryById = async (id) => {
 
 export const createIndustry = async (industryData) => {
   try {
-    const { industry_name } = industryData;
+    const { id, industry_name } = industryData;
     const result = await pool.query(
-      'INSERT INTO public.industries (industry_name) VALUES ($1) RETURNING *',
-      [industry_name]
+      'INSERT INTO public.industries (id, industry_name) VALUES ($1, $2) RETURNING *',
+      [id, industry_name]
     );
     return result.rows[0];
   } catch (err) {

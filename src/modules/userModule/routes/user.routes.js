@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { validateBody } from '../../../common/middlewares/validateRequest.middleware.js';
+import { createUserSchema, updateUserSchema } from '../../../common/schemas/user.schemas.js';
 import {
   getAllUsers,
   getUserById,
@@ -20,10 +22,10 @@ userRouter.get('/users/:id', getUserById);
 userRouter.get('/users/email/:email', getUserByEmail);
 
 // Create user
-userRouter.post('/users', createUser);
+userRouter.post('/users', validateBody(createUserSchema), createUser);
 
 // Update user
-userRouter.put('/users/:id', updateUser);
+userRouter.put('/users/:id', validateBody(updateUserSchema), updateUser);
 
 // Delete user
 userRouter.delete('/users/:id', deleteUser);

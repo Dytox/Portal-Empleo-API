@@ -23,10 +23,10 @@ export const getCompanySizeById = async (id) => {
 
 export const createCompanySize = async (sizeData) => {
   try {
-    const { size_name } = sizeData;
+    const { id, size_name } = sizeData;
     const result = await pool.query(
-      'INSERT INTO public.company_size (size_name) VALUES ($1) RETURNING *',
-      [size_name]
+      'INSERT INTO public.company_size (id, size_name) VALUES ($1, $2) RETURNING *',
+      [id, size_name]
     );
     return result.rows[0];
   } catch (err) {

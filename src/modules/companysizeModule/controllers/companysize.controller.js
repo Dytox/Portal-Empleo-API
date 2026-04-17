@@ -1,4 +1,3 @@
-import { createCompanySizeSchema, updateCompanySizeSchema } from '../../../common/schemas/companysize.schemas.js';
 import * as companySizeService from '../services/companysize.service.js';
 
 export const getAllCompanySizes = async (req, res) => {
@@ -28,13 +27,9 @@ export const getCompanySizeById = async (req, res) => {
 
 export const createCompanySize = async (req, res) => {
   try {
-    const validatedData = createCompanySizeSchema.parse(req.body);
-    const size = await companySizeService.createCompanySize(validatedData);
+    const size = await companySizeService.createCompanySize(req.body);
     res.status(201).json(size);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };
@@ -45,16 +40,12 @@ export const updateCompanySize = async (req, res) => {
     if (!Number.isInteger(Number(id))) {
       return res.status(400).json({ error: 'Invalid ID format' });
     }
-    const validatedData = updateCompanySizeSchema.parse({ id: Number(id), ...req.body });
-    const size = await companySizeService.updateCompanySize(Number(id), validatedData);
+    const size = await companySizeService.updateCompanySize(Number(id), req.body);
     if (!size) {
       return res.status(404).json({ error: 'Company size not found' });
     }
     res.json(size);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };

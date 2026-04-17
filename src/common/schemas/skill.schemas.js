@@ -2,6 +2,10 @@ import z from "zod";
 
 export const createSkillSchema = z
   .object({
+    id: z.number().int().positive().meta({
+      description: "Skill ID",
+      example: 1,
+    }),
     skill_name: z.string().min(1).max(50).meta({
       description: "Skill name",
       example: "JavaScript",
@@ -14,10 +18,6 @@ export const createSkillSchema = z
 
 export const updateSkillSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "Skill ID",
-      example: 1,
-    }),
     skill_name: z.string().min(1).max(50).meta({
       description: "Skill name",
       example: "TypeScript",

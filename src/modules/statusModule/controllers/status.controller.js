@@ -1,4 +1,3 @@
-import { createStatusSchema, updateStatusSchema } from '../../../common/schemas/status.schemas.js';
 import * as statusService from '../services/status.service.js';
 
 export const getAllStatus = async (req, res) => {
@@ -28,13 +27,9 @@ export const getStatusById = async (req, res) => {
 
 export const createStatus = async (req, res) => {
   try {
-    const validatedData = createStatusSchema.parse(req.body);
-    const status = await statusService.createStatus(validatedData);
+    const status = await statusService.createStatus(req.body);
     res.status(201).json(status);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };
@@ -45,16 +40,12 @@ export const updateStatus = async (req, res) => {
     if (!Number.isInteger(Number(id))) {
       return res.status(400).json({ error: 'Invalid ID format' });
     }
-    const validatedData = updateStatusSchema.parse({ id: Number(id), ...req.body });
-    const status = await statusService.updateStatus(Number(id), validatedData);
+    const status = await statusService.updateStatus(Number(id), req.body);
     if (!status) {
       return res.status(404).json({ error: 'Status not found' });
     }
     res.json(status);
   } catch (err) {
-    if (err.errors) {
-      return res.status(400).json({ error: err.errors });
-    }
     res.status(500).json({ error: err.message });
   }
 };
