@@ -78,19 +78,3 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-export const deleteUser = async (req, res) => {
-  try {
-    const { id } = req.params;
-    if (!Number.isInteger(Number(id))) {
-      return res.status(400).json({ error: 'Invalid ID format' });
-    }
-    const user = await userService.deleteUser(Number(id));
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-    res.json({ message: 'User deleted successfully', user });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
