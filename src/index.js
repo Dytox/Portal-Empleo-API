@@ -1,5 +1,6 @@
 
 import express from 'express';
+import cors from 'cors';
 
 import dotenv from 'dotenv';
 dotenv.config();
@@ -25,6 +26,14 @@ import { swaggerUi, swaggerSpec } from './common/swagger.js';
 
 const app = express();
 
+// Configurar CORS para desarrollo local
+const corsOptions = {
+  origin: ['http://localhost:3000'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
