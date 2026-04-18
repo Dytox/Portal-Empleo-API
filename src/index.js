@@ -21,6 +21,14 @@ import industryRouter from './modules/industryModule/routes/industry.routes.js';
 import jobpostRouter from './modules/jobpostModule/routes/jobpost.routes.js';
 import experiencerequiredtimelapseRouter from './modules/experiencerequiredtimelapseModule/routes/experiencerequiredtimelapse.routes.js';
 import statusRouter from './modules/statusModule/routes/status.routes.js';
+import jobalertRouter from './modules/jobalertModule/routes/jobalert.routes.js';
+import savedjobRouter from './modules/savedjobsModule/routes/savedjob.routes.js';
+import jobpostapplicationRouter from './modules/jobpostapplicationModule/routes/jobpostapplication.routes.js';
+import notificationRouter from './modules/notificationModule/routes/notification.routes.js';
+import forumpostRouter from './modules/forumpostModule/routes/forumpost.routes.js';
+import forumcommentRouter from './modules/forumcommentModule/routes/forumcomment.routes.js';
+import companyreviewRouter from './modules/companyreviewModule/routes/companyreview.routes.js';
+import resourceRouter from './modules/resourceModule/routes/resource.routes.js';
 
 import { swaggerUi, swaggerSpec } from './common/swagger.js';
 
@@ -57,6 +65,14 @@ app.use(industryRouter);
 app.use(jobpostRouter);
 app.use(experiencerequiredtimelapseRouter);
 app.use(statusRouter);
+app.use(jobalertRouter);
+app.use(savedjobRouter);
+app.use(jobpostapplicationRouter);
+app.use(notificationRouter);
+app.use(forumpostRouter);
+app.use(forumcommentRouter);
+app.use(companyreviewRouter);
+app.use(resourceRouter);
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Servidor corriendo en http://localhost:${process.env.PORT || 3000}`);

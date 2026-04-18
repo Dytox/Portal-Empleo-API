@@ -2,7 +2,7 @@ import { pool } from '../../../common/connections/db-connection.js';
 
 export const getAllProfiles = async () => {
   try {
-    const result = await pool.query('SELECT * FROM public.profile');
+    const result = await pool.query('SELECT * FROM public.profiles');
     return result.rows;
   } catch (err) {
     throw new Error(`Database error: ${err.message}`);
@@ -11,7 +11,7 @@ export const getAllProfiles = async () => {
 
 export const getProfileById = async (id) => {
   try {
-    const result = await pool.query('SELECT * FROM public.profile WHERE id = $1', [id]);
+    const result = await pool.query('SELECT * FROM public.profiles WHERE id = $1', [id]);
     if (result.rows.length === 0) {
       return null;
     }
@@ -23,7 +23,7 @@ export const getProfileById = async (id) => {
 
 export const getProfileByUserId = async (userId) => {
   try {
-    const result = await pool.query('SELECT * FROM public.profile WHERE user_id = $1', [userId]);
+    const result = await pool.query('SELECT * FROM public.profiles WHERE user_id = $1', [userId]);
     if (result.rows.length === 0) {
       return null;
     }
@@ -35,10 +35,12 @@ export const getProfileByUserId = async (userId) => {
 
 export const createProfile = async (profileData) => {
   try {
-    const { user_id, name, last_name, tel, external_link, cv_uri, about_me } = profileData;
+    const { user_id, first_name, last_name, phone, location, external_link, cv_url, profile_image_url, about_me, professional_title } = profileData;
     const result = await pool.query(
-      'INSERT INTO public.profile (user_id, name, last_name, tel, external_link, cv_uri, about_me) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-      [user_id, name, last_name, tel || null, external_link || null, cv_uri || null, about_me || null]
+      `INSERT INTO public.profiles 
+      (user_id, first_name, last_name, phone, location, external_link, cv_url, profile_image_url, about_me, professional_title) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
+      [user_id, first_name, last_name, phone || null, location || null, external_link || null, cv_url || null, profile_image_url || null, about_me || null, professional_title || null]
     );
     return result.rows[0];
   } catch (err) {
@@ -48,37 +50,49 @@ export const createProfile = async (profileData) => {
 
 export const updateProfile = async (id, profileData) => {
   try {
-    const { name, last_name, tel, external_link, cv_uri, about_me } = profileData;
+    const { first_name, last_name, phone, location, external_link, cv_url, profile_image_url, about_me, professional_title } = profileData;
     const updates = [];
     const values = [];
     let paramCount = 1;
 
-    if (name !== undefined) {
-      updates.push(`name = $${paramCount++}`);
-      values.push(name);
+    if (first_name !== undefined) {
+      updates.push(`first_name = $${paramCount++}`);
+      values.push(first_name);
     }
     if (last_name !== undefined) {
       updates.push(`last_name = $${paramCount++}`);
       values.push(last_name);
     }
-    if (tel !== undefined) {
-      updates.push(`tel = $${paramCount++}`);
-      values.push(tel || null);
+    if (phone !== undefined) {
+      updates.push(`phone = $${paramCount++}`);
+      values.push(phone || null);
+    }
+    if (location !== undefined) {
+      updates.push(`location = $${paramCount++}`);
+      values.push(location || null);
     }
     if (external_link !== undefined) {
       updates.push(`external_link = $${paramCount++}`);
       values.push(external_link || null);
     }
-    if (cv_uri !== undefined) {
-      updates.push(`cv_uri = $${paramCount++}`);
-      values.push(cv_uri || null);
+    if (cv_url !== undefined) {
+      updates.push(`cv_url = $${paramCount++}`);
+      values.push(cv_url || null);
+    }
+    if (profile_image_url !== undefined) {
+      updates.push(`profile_image_url = $${paramCount++}`);
+      values.push(profile_image_url || null);
     }
     if (about_me !== undefined) {
       updates.push(`about_me = $${paramCount++}`);
       values.push(about_me || null);
     }
+    if (professional_title !== undefined) {
+      updates.push(`professional_title = $${paramCount++}`);
+      values.push(professional_title || null);
+    }
 
-    updates.push(`update_date = $${paramCount++}`);
+    updates.push(`updated_at = $${paramCount++}`);
     values.push(new Date());
 
     values.push(id);
@@ -87,7 +101,7 @@ export const updateProfile = async (id, profileData) => {
       return null;
     }
 
-    const query = `UPDATE public.profile SET ${updates.join(', ')} WHERE id = $${paramCount} RETURNING *`;
+    const query = `UPDATE public.profiles SET ${updates.join(', ')} WHERE id = $${paramCount} RETURNING *`;
     const result = await pool.query(query, values);
 
     if (result.rows.length === 0) {
@@ -101,7 +115,7 @@ export const updateProfile = async (id, profileData) => {
 
 export const deleteProfile = async (id) => {
   try {
-    const result = await pool.query('DELETE FROM public.profile WHERE id = $1 RETURNING *', [id]);
+    const result = await pool.query('DELETE FROM public.profiles WHERE id = $1 RETURNING *', [id]);
     if (result.rows.length === 0) {
       return null;
     }

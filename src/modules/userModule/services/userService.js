@@ -36,7 +36,7 @@ export const getUserByEmail = async (email) => {
 
 export const createUser = async (userData) => {
   try {
-    const { email, external_id, is_bloqued, role_id } = userData;
+    const { email, password_hash, external_id, is_blocked, role_id } = userData;
     
     // Check if email already exists
     const existingUser = await pool.query('SELECT * FROM public.users WHERE email = $1', [email]);
@@ -45,8 +45,8 @@ export const createUser = async (userData) => {
     }
 
     const result = await pool.query(
-      'INSERT INTO public.users (email, external_id, is_bloqued, role_id) VALUES ($1, $2, $3, $4) RETURNING *',
-      [email, external_id, is_bloqued || false, role_id || 1]
+      'INSERT INTO public.users (email, password_hash, external_id, is_blocked, role_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [email, password_hash, external_id || null, is_blocked || false, role_id]
     );
     return result.rows[0];
   } catch (err) {
@@ -56,7 +56,7 @@ export const createUser = async (userData) => {
 
 export const updateUser = async (id, userData) => {
   try {
-    const { email, is_bloqued, role_id } = userData;
+    const { email, password_hash, external_id, is_blocked, role_id } = userData;
     const updates = [];
     const values = [];
     let paramCount = 1;
@@ -73,9 +73,17 @@ export const updateUser = async (id, userData) => {
       updates.push(`email = $${paramCount++}`);
       values.push(email);
     }
-    if (is_bloqued !== undefined) {
-      updates.push(`is_bloqued = $${paramCount++}`);
-      values.push(is_bloqued);
+    if (password_hash !== undefined) {
+      updates.push(`password_hash = $${paramCount++}`);
+      values.push(password_hash);
+    }
+    if (external_id !== undefined) {
+      updates.push(`external_id = $${paramCount++}`);
+      values.push(external_id);
+    }
+    if (is_blocked !== undefined) {
+      updates.push(`is_blocked = $${paramCount++}`);
+      values.push(is_blocked);
     }
     if (role_id !== undefined) {
       updates.push(`role_id = $${paramCount++}`);
@@ -85,6 +93,9 @@ export const updateUser = async (id, userData) => {
     if (updates.length === 0) {
       return null;
     }
+
+    updates.push(`updated_at = $${paramCount++}`);
+    values.push(new Date());
 
     values.push(id);
 
@@ -113,3 +124,4 @@ export const deleteUser = async (id) => {
 };
 
 export const creatreUser = createUser; // Keep for backwards compatibility with existing controller
+
