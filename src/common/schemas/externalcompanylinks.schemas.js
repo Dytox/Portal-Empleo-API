@@ -2,12 +2,16 @@ import z from "zod";
 
 export const createExternalCompanyLinksSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "External links ID",
+    company_profile_id: z.number().int().positive().meta({
+      description: "Company profile ID",
       example: 1,
     }),
-    link: z.string().meta({
-      description: "External company link",
+    link_type: z.string().min(1).max(50).meta({
+      description: "Link type",
+      example: "linkedin",
+    }),
+    link_url: z.string().url().meta({
+      description: "Link URL",
       example: "https://linkedin.com/company/techcorp",
     }),
   })
@@ -18,9 +22,13 @@ export const createExternalCompanyLinksSchema = z
 
 export const updateExternalCompanyLinksSchema = z
   .object({
-    link: z.string().meta({
-      description: "External company link",
-      example: "https://linkedin.com/company/techcorp",
+    link_type: z.string().min(1).max(50).optional().meta({
+      description: "Link type",
+      example: "twitter",
+    }),
+    link_url: z.string().url().optional().meta({
+      description: "Link URL",
+      example: "https://twitter.com/techcorp",
     }),
   })
   .meta({
@@ -34,9 +42,21 @@ export const externalCompanyLinksSchema = z
       description: "External links ID",
       example: 1,
     }),
-    link: z.string().url().meta({
-      description: "External company link",
+    company_profile_id: z.number().int().positive().meta({
+      description: "Company profile ID",
+      example: 1,
+    }),
+    link_type: z.string().meta({
+      description: "Link type",
+      example: "linkedin",
+    }),
+    link_url: z.string().url().meta({
+      description: "Link URL",
       example: "https://linkedin.com/company/techcorp",
+    }),
+    created_at: z.string().datetime().meta({
+      description: "Creation timestamp",
+      example: "2024-01-01T00:00:00Z",
     }),
   })
   .meta({

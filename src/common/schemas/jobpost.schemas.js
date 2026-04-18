@@ -2,19 +2,31 @@ import z from "zod";
 
 export const createJobPostSchema = z
   .object({
-    company_id: z.number().int().positive().meta({
-      description: "Company ID",
+    company_profile_id: z.number().int().positive().meta({
+      description: "Company profile ID",
       example: 1,
     }),
-    title: z.string().min(1).meta({
+    title: z.string().min(1).max(150).meta({
       description: "Job title",
       example: "Senior Developer",
     }),
-    description: z.string().optional().meta({
+    description: z.string().meta({
       description: "Job description",
       example: "Looking for a senior developer with 5+ years of experience",
     }),
-    experience_required_timelapse_id: z.number().int().positive().meta({
+    location: z.string().max(150).optional().meta({
+      description: "Job location",
+      example: "San Salvador, El Salvador",
+    }),
+    modality: z.enum(["remote", "onsite", "hybrid"]).optional().meta({
+      description: "Work modality",
+      example: "remote",
+    }),
+    job_type: z.string().max(50).optional().meta({
+      description: "Job type",
+      example: "full-time",
+    }),
+    experience_required_timelapse_id: z.number().int().positive().optional().meta({
       description: "Experience required timelapse ID",
       example: 1,
     }),
@@ -33,18 +45,30 @@ export const createJobPostSchema = z
   })
   .meta({
     id: "CreateJobPostDTO",
-    description: "Schema for creating a new job post",
+    description: "Schema for creating a job post",
   });
 
 export const updateJobPostSchema = z
   .object({
-    title: z.string().min(1).optional().meta({
+    title: z.string().min(1).max(150).optional().meta({
       description: "Job title",
       example: "Senior Developer",
     }),
     description: z.string().optional().meta({
       description: "Job description",
       example: "Looking for a senior developer with 5+ years of experience",
+    }),
+    location: z.string().max(150).optional().meta({
+      description: "Job location",
+      example: "San Salvador, El Salvador",
+    }),
+    modality: z.enum(["remote", "onsite", "hybrid"]).optional().meta({
+      description: "Work modality",
+      example: "hybrid",
+    }),
+    job_type: z.string().max(50).optional().meta({
+      description: "Job type",
+      example: "part-time",
     }),
     experience_required_timelapse_id: z.number().int().positive().optional().meta({
       description: "Experience required timelapse ID",
@@ -74,19 +98,31 @@ export const jobPostSchema = z
       description: "Job post ID",
       example: 1,
     }),
-    company_id: z.number().int().positive().meta({
-      description: "Company ID",
+    company_profile_id: z.number().int().positive().meta({
+      description: "Company profile ID",
       example: 1,
     }),
     title: z.string().meta({
       description: "Job title",
       example: "Senior Developer",
     }),
-    description: z.string().nullable().meta({
+    description: z.string().meta({
       description: "Job description",
       example: "Looking for a senior developer with 5+ years of experience",
     }),
-    experience_required_timelapse_id: z.number().int().positive().meta({
+    location: z.string().nullable().meta({
+      description: "Job location",
+      example: "San Salvador, El Salvador",
+    }),
+    modality: z.string().nullable().meta({
+      description: "Work modality",
+      example: "remote",
+    }),
+    job_type: z.string().nullable().meta({
+      description: "Job type",
+      example: "full-time",
+    }),
+    experience_required_timelapse_id: z.number().int().positive().nullable().meta({
       description: "Experience required timelapse ID",
       example: 1,
     }),
@@ -102,13 +138,13 @@ export const jobPostSchema = z
       description: "Status ID",
       example: 1,
     }),
-    creation_date: z.string().datetime().meta({
-      description: "Creation date",
+    created_at: z.string().datetime().meta({
+      description: "Creation timestamp",
       example: "2024-01-01T00:00:00Z",
     }),
-    update_date: z.string().datetime().meta({
-      description: "Update date",
-      example: "2024-01-01T00:00:00Z",
+    updated_at: z.string().datetime().nullable().meta({
+      description: "Last update timestamp",
+      example: "2024-01-02T00:00:00Z",
     }),
   })
   .meta({

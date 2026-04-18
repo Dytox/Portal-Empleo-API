@@ -21,9 +21,9 @@ export const getJobPostById = async (id) => {
   }
 };
 
-export const getJobPostsByCompanyId = async (companyId) => {
+export const getJobPostsByCompanyProfileId = async (companyProfileId) => {
   try {
-    const result = await pool.query('SELECT * FROM public.job_posts WHERE company_id = $1', [companyId]);
+    const result = await pool.query('SELECT * FROM public.job_posts WHERE company_profile_id = $1', [companyProfileId]);
     return result.rows;
   } catch (err) {
     throw new Error(`Database error: ${err.message}`);
@@ -32,10 +32,10 @@ export const getJobPostsByCompanyId = async (companyId) => {
 
 export const createJobPost = async (postData) => {
   try {
-    const { company_id, title, description, experience_required_timelapse_id, min_salary, max_salary, status_id } = postData;
+    const { company_profile_id, title, description, location, modality, job_type, experience_required_timelapse_id, min_salary, max_salary, status_id } = postData;
     const result = await pool.query(
-      'INSERT INTO public.job_posts (company_id, title, description, experience_required_timelapse_id, min_salary, max_salary, status_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-      [company_id, title, description || null, experience_required_timelapse_id, min_salary || null, max_salary || null, status_id]
+      'INSERT INTO public.job_posts (company_profile_id, title, description, location, modality, job_type, experience_required_timelapse_id, min_salary, max_salary, status_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
+      [company_profile_id, title, description, location || null, modality || null, job_type || null, experience_required_timelapse_id || null, min_salary || null, max_salary || null, status_id]
     );
     return result.rows[0];
   } catch (err) {
@@ -45,7 +45,7 @@ export const createJobPost = async (postData) => {
 
 export const updateJobPost = async (id, postData) => {
   try {
-    const { title, description, experience_required_timelapse_id, min_salary, max_salary, status_id } = postData;
+    const { title, description, location, modality, job_type, experience_required_timelapse_id, min_salary, max_salary, status_id } = postData;
     const updates = [];
     const values = [];
     let paramCount = 1;
@@ -56,11 +56,23 @@ export const updateJobPost = async (id, postData) => {
     }
     if (description !== undefined) {
       updates.push(`description = $${paramCount++}`);
-      values.push(description || null);
+      values.push(description);
+    }
+    if (location !== undefined) {
+      updates.push(`location = $${paramCount++}`);
+      values.push(location || null);
+    }
+    if (modality !== undefined) {
+      updates.push(`modality = $${paramCount++}`);
+      values.push(modality || null);
+    }
+    if (job_type !== undefined) {
+      updates.push(`job_type = $${paramCount++}`);
+      values.push(job_type || null);
     }
     if (experience_required_timelapse_id !== undefined) {
       updates.push(`experience_required_timelapse_id = $${paramCount++}`);
-      values.push(experience_required_timelapse_id);
+      values.push(experience_required_timelapse_id || null);
     }
     if (min_salary !== undefined) {
       updates.push(`min_salary = $${paramCount++}`);
@@ -75,7 +87,7 @@ export const updateJobPost = async (id, postData) => {
       values.push(status_id);
     }
 
-    updates.push(`update_date = $${paramCount++}`);
+    updates.push(`updated_at = $${paramCount++}`);
     values.push(new Date());
 
     values.push(id);

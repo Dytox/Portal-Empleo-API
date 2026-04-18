@@ -2,25 +2,21 @@ import z from "zod";
 
 export const createSkillSchema = z
   .object({
-    id: z.number().int().positive().meta({
-      description: "Skill ID",
-      example: 1,
-    }),
-    skill_name: z.string().min(1).max(50).meta({
+    skill_name: z.string().min(1).max(80).meta({
       description: "Skill name",
       example: "JavaScript",
     }),
   })
   .meta({
     id: "CreateSkillDTO",
-    description: "Schema for creating a new skill",
+    description: "Schema for creating a skill",
   });
 
 export const updateSkillSchema = z
   .object({
-    skill_name: z.string().min(1).max(50).meta({
+    skill_name: z.string().min(1).max(80).optional().meta({
       description: "Skill name",
-      example: "TypeScript",
+      example: "JavaScript",
     }),
   })
   .meta({

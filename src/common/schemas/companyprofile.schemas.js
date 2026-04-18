@@ -10,22 +10,22 @@ export const createCompanyProfileSchema = z
       description: "Company name",
       example: "TechCorp Inc",
     }),
-    tel: z.number().int().optional().meta({
+    tel: z.string().max(20).optional().meta({
       description: "Company phone number",
-      example: 23456789,
+      example: "+1-234-567-8900",
     }),
-    external_links_id: z.number().int().positive().meta({
-      description: "External links ID",
+    industry_id: z.number().int().positive().optional().meta({
+      description: "Industry ID",
       example: 1,
     }),
-    additional_info_id: z.number().int().positive().meta({
-      description: "Additional info ID",
+    company_size_id: z.number().int().positive().optional().meta({
+      description: "Company size ID",
       example: 1,
     }),
   })
   .meta({
     id: "CreateCompanyProfileDTO",
-    description: "Schema for creating a new company profile",
+    description: "Schema for creating a company profile",
   });
 
 export const updateCompanyProfileSchema = z
@@ -34,16 +34,16 @@ export const updateCompanyProfileSchema = z
       description: "Company name",
       example: "TechCorp Inc",
     }),
-    tel: z.number().int().optional().meta({
+    tel: z.string().max(20).optional().meta({
       description: "Company phone number",
-      example: 23456789,
+      example: "+1-234-567-8900",
     }),
-    external_links_id: z.number().int().positive().optional().meta({
-      description: "External links ID",
+    industry_id: z.number().int().positive().optional().meta({
+      description: "Industry ID",
       example: 1,
     }),
-    additional_info_id: z.number().int().positive().optional().meta({
-      description: "Additional info ID",
+    company_size_id: z.number().int().positive().optional().meta({
+      description: "Company size ID",
       example: 1,
     }),
   })
@@ -66,25 +66,25 @@ export const companyProfileSchema = z
       description: "Company name",
       example: "TechCorp Inc",
     }),
-    tel: z.number().int().nullable().meta({
+    tel: z.string().nullable().meta({
       description: "Company phone number",
-      example: 23456789,
+      example: "+1-234-567-8900",
     }),
-    external_links_id: z.number().int().positive().meta({
-      description: "External links ID",
+    industry_id: z.number().int().positive().nullable().meta({
+      description: "Industry ID",
       example: 1,
     }),
-    additional_info_id: z.number().int().positive().meta({
-      description: "Additional info ID",
+    company_size_id: z.number().int().positive().nullable().meta({
+      description: "Company size ID",
       example: 1,
     }),
-    update_date: z.string().datetime().meta({
-      description: "Update date",
+    created_at: z.string().datetime().meta({
+      description: "Creation timestamp",
       example: "2024-01-01T00:00:00Z",
     }),
-    creation_date: z.string().datetime().meta({
-      description: "Creation date",
-      example: "2024-01-01T00:00:00Z",
+    updated_at: z.string().datetime().nullable().meta({
+      description: "Last update timestamp",
+      example: "2024-01-02T00:00:00Z",
     }),
   })
   .meta({
