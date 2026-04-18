@@ -115,8 +115,3 @@ export const workExperienceSchema = z
     id: "WorkExperience",
     description: "Work Experience response object",
   });
-  })
-  .meta({
-    id: "WorkExperience",
-    description: "Work experience response object",
-  });
