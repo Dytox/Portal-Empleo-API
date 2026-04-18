@@ -23,10 +23,10 @@ export const getExternalCompanyLinksById = async (id) => {
 
 export const createExternalCompanyLinks = async (linksData) => {
   try {
-    const { id, link } = linksData;
+    const { company_profile_id, link_type, link_url } = linksData;
     const result = await pool.query(
-      'INSERT INTO public.external_company_links (id, link) VALUES ($1, $2) RETURNING *',
-      [id, link]
+      'INSERT INTO public.external_company_links (company_profile_id, link_type, link_url, created_at) VALUES ($1, $2, $3, $4) RETURNING *',
+      [company_profile_id, link_type, link_url, new Date()]
     );
     return result.rows[0];
   } catch (err) {
@@ -36,10 +36,10 @@ export const createExternalCompanyLinks = async (linksData) => {
 
 export const updateExternalCompanyLinks = async (id, linksData) => {
   try {
-    const { link } = linksData;
+    const { link_type, link_url } = linksData;
     const result = await pool.query(
-      'UPDATE public.external_company_links SET link = $1 WHERE id = $2 RETURNING *',
-      [link, id]
+      'UPDATE public.external_company_links SET link_type = $1, link_url = $2 WHERE id = $3 RETURNING *',
+      [link_type, link_url, id]
     );
     if (result.rows.length === 0) {
       return null;

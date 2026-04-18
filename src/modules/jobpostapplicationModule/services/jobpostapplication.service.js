@@ -41,9 +41,9 @@ export const createApplication = async (applicationData) => {
     const { profile_id, job_post_id, application_status, notes } = applicationData;
     const result = await pool.query(
       `INSERT INTO public.job_post_applications 
-      (profile_id, job_post_id, application_status, notes) 
-      VALUES ($1, $2, $3, $4) RETURNING *`,
-      [profile_id, job_post_id, application_status || 'submitted', notes || null]
+      (profile_id, job_post_id, application_status, application_date, notes) 
+      VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [profile_id, job_post_id, application_status || 'submitted', new Date(), notes || null]
     );
     return result.rows[0];
   } catch (err) {

@@ -32,10 +32,10 @@ export const getWorkExperiencesByProfileId = async (profileId) => {
 
 export const createWorkExperience = async (experienceData) => {
   try {
-    const { profile_id, title, description, company, start_date, end_date } = experienceData;
+    const { profile_id, job_title, description, company_name, start_date, end_date, is_current } = experienceData;
     const result = await pool.query(
-      'INSERT INTO public.work_experiences (profile_id, title, description, company, start_date, end_date, creation_date, update_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-      [profile_id, title, description || null, company, start_date, end_date || null, new Date(), new Date()]
+      'INSERT INTO public.work_experiences (profile_id, job_title, description, company_name, start_date, end_date, is_current, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+      [profile_id, job_title, description || null, company_name, start_date, end_date || null, is_current || false, new Date(), new Date()]
     );
     return result.rows[0];
   } catch (err) {
@@ -45,22 +45,22 @@ export const createWorkExperience = async (experienceData) => {
 
 export const updateWorkExperience = async (id, experienceData) => {
   try {
-    const { title, description, company, start_date, end_date } = experienceData;
+    const { job_title, description, company_name, start_date, end_date, is_current } = experienceData;
     const updates = [];
     const values = [];
     let paramCount = 1;
 
-    if (title !== undefined) {
-      updates.push(`title = $${paramCount++}`);
-      values.push(title);
+    if (job_title !== undefined) {
+      updates.push(`job_title = $${paramCount++}`);
+      values.push(job_title);
     }
     if (description !== undefined) {
       updates.push(`description = $${paramCount++}`);
       values.push(description || null);
     }
-    if (company !== undefined) {
-      updates.push(`company = $${paramCount++}`);
-      values.push(company);
+    if (company_name !== undefined) {
+      updates.push(`company_name = $${paramCount++}`);
+      values.push(company_name);
     }
     if (start_date !== undefined) {
       updates.push(`start_date = $${paramCount++}`);
@@ -70,8 +70,12 @@ export const updateWorkExperience = async (id, experienceData) => {
       updates.push(`end_date = $${paramCount++}`);
       values.push(end_date || null);
     }
+    if (is_current !== undefined) {
+      updates.push(`is_current = $${paramCount++}`);
+      values.push(is_current);
+    }
 
-    updates.push(`update_date = $${paramCount++}`);
+    updates.push(`updated_at = $${paramCount++}`);
     values.push(new Date());
 
     values.push(id);

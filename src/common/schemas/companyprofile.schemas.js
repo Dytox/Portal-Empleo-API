@@ -10,7 +10,7 @@ export const createCompanyProfileSchema = z
       description: "Company name",
       example: "TechCorp Inc",
     }),
-    tel: z.string().max(20).optional().meta({
+    phone: z.string().max(20).optional().meta({
       description: "Company phone number",
       example: "+1-234-567-8900",
     }),

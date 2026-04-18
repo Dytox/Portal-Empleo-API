@@ -23,10 +23,10 @@ export const getExperienceRequiredTimelapsesById = async (id) => {
 
 export const createExperienceRequiredTimelapses = async (timelapsesData) => {
   try {
-    const { id, experience_timelapse_name } = timelapsesData;
+    const { id, experience_time } = timelapsesData;
     const result = await pool.query(
-      'INSERT INTO public.experience_required_timelapses (id, experience_timelapse_name) VALUES ($1, $2) RETURNING *',
-      [id, experience_timelapse_name]
+      'INSERT INTO public.experience_required_timelapses (id, experience_time) VALUES ($1, $2) RETURNING *',
+      [id, experience_time]
     );
     return result.rows[0];
   } catch (err) {
@@ -36,10 +36,10 @@ export const createExperienceRequiredTimelapses = async (timelapsesData) => {
 
 export const updateExperienceRequiredTimelapses = async (id, timelapsesData) => {
   try {
-    const { experience_timelapse_name } = timelapsesData;
+    const { experience_time } = timelapsesData;
     const result = await pool.query(
-      'UPDATE public.experience_required_timelapses SET experience_timelapse_name = $1 WHERE id = $2 RETURNING *',
-      [experience_timelapse_name, id]
+      'UPDATE public.experience_required_timelapses SET experience_time = $1 WHERE id = $2 RETURNING *',
+      [experience_time, id]
     );
     if (result.rows.length === 0) {
       return null;

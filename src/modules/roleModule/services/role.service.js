@@ -23,10 +23,10 @@ export const getRoleById = async (id) => {
 
 export const createRole = async (roleData) => {
   try {
-    const { id, name } = roleData;
+    const { id, role_name } = roleData;
     const result = await pool.query(
-      'INSERT INTO public.roles (id, name) VALUES ($1, $2) RETURNING *',
-      [id, name]
+      'INSERT INTO public.roles (id, role_name) VALUES ($1, $2) RETURNING *',
+      [id, role_name]
     );
     return result.rows[0];
   } catch (err) {
@@ -36,10 +36,10 @@ export const createRole = async (roleData) => {
 
 export const updateRole = async (id, roleData) => {
   try {
-    const { name } = roleData;
+    const { role_name } = roleData;
     const result = await pool.query(
-      'UPDATE public.roles SET name = $1 WHERE id = $2 RETURNING *',
-      [name, id]
+      'UPDATE public.roles SET role_name = $1 WHERE id = $2 RETURNING *',
+      [role_name, id]
     );
     if (result.rows.length === 0) {
       return null;

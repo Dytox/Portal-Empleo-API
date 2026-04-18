@@ -23,10 +23,10 @@ export const getAdditionalInfoById = async (id) => {
 
 export const createAdditionalInfo = async (infoData) => {
   try {
-    const { about_company, company_size_id, industry_id, mision, vision, culture } = infoData;
+    const { about_company, mission, vision, culture } = infoData;
     const result = await pool.query(
-      'INSERT INTO public.company_additional_info (about_company, company_size_id, industry_id, mision, vision, culture) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [about_company || null, company_size_id, industry_id, mision || null, vision || null, culture || null]
+      'INSERT INTO public.company_additional_info (about_company, mission, vision, culture, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [about_company || null, mission || null, vision || null, culture || null, new Date(), new Date()]
     );
     return result.rows[0];
   } catch (err) {
@@ -36,7 +36,7 @@ export const createAdditionalInfo = async (infoData) => {
 
 export const updateAdditionalInfo = async (id, infoData) => {
   try {
-    const { about_company, company_size_id, industry_id, mision, vision, culture } = infoData;
+    const { about_company, mission, vision, culture } = infoData;
     const updates = [];
     const values = [];
     let paramCount = 1;
@@ -45,17 +45,9 @@ export const updateAdditionalInfo = async (id, infoData) => {
       updates.push(`about_company = $${paramCount++}`);
       values.push(about_company || null);
     }
-    if (company_size_id !== undefined) {
-      updates.push(`company_size_id = $${paramCount++}`);
-      values.push(company_size_id);
-    }
-    if (industry_id !== undefined) {
-      updates.push(`industry_id = $${paramCount++}`);
-      values.push(industry_id);
-    }
-    if (mision !== undefined) {
-      updates.push(`mision = $${paramCount++}`);
-      values.push(mision || null);
+    if (mission !== undefined) {
+      updates.push(`mission = $${paramCount++}`);
+      values.push(mission || null);
     }
     if (vision !== undefined) {
       updates.push(`vision = $${paramCount++}`);
@@ -66,7 +58,7 @@ export const updateAdditionalInfo = async (id, infoData) => {
       values.push(culture || null);
     }
 
-    updates.push(`update_date = $${paramCount++}`);
+    updates.push(`updated_at = $${paramCount++}`);
     values.push(new Date());
 
     values.push(id);

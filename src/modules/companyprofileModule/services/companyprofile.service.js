@@ -35,10 +35,10 @@ export const getCompanyProfileByUserId = async (userId) => {
 
 export const createCompanyProfile = async (profileData) => {
   try {
-    const { user_id, company_name, tel, external_links_id, additional_info_id } = profileData;
+    const { user_id, company_name, phone, location, website_url, logo_url, cover_image_url, company_size_id, industry_id, additional_info_id } = profileData;
     const result = await pool.query(
-      'INSERT INTO public.company_profiles (user_id, company_name, tel, external_links_id, additional_info_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [user_id, company_name, tel || null, external_links_id, additional_info_id]
+      'INSERT INTO public.company_profiles (user_id, company_name, phone, location, website_url, logo_url, cover_image_url, company_size_id, industry_id, additional_info_id, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *',
+      [user_id, company_name, phone || null, location || null, website_url || null, logo_url || null, cover_image_url || null, company_size_id || null, industry_id || null, additional_info_id || null, new Date(), new Date()]
     );
     return result.rows[0];
   } catch (err) {
@@ -48,7 +48,7 @@ export const createCompanyProfile = async (profileData) => {
 
 export const updateCompanyProfile = async (id, profileData) => {
   try {
-    const { company_name, tel, external_links_id, additional_info_id } = profileData;
+    const { company_name, phone, location, website_url, logo_url, cover_image_url, company_size_id, industry_id, additional_info_id } = profileData;
     const updates = [];
     const values = [];
     let paramCount = 1;
@@ -57,20 +57,40 @@ export const updateCompanyProfile = async (id, profileData) => {
       updates.push(`company_name = $${paramCount++}`);
       values.push(company_name);
     }
-    if (tel !== undefined) {
-      updates.push(`tel = $${paramCount++}`);
-      values.push(tel || null);
+    if (phone !== undefined) {
+      updates.push(`phone = $${paramCount++}`);
+      values.push(phone || null);
     }
-    if (external_links_id !== undefined) {
-      updates.push(`external_links_id = $${paramCount++}`);
-      values.push(external_links_id);
+    if (location !== undefined) {
+      updates.push(`location = $${paramCount++}`);
+      values.push(location || null);
+    }
+    if (website_url !== undefined) {
+      updates.push(`website_url = $${paramCount++}`);
+      values.push(website_url || null);
+    }
+    if (logo_url !== undefined) {
+      updates.push(`logo_url = $${paramCount++}`);
+      values.push(logo_url || null);
+    }
+    if (cover_image_url !== undefined) {
+      updates.push(`cover_image_url = $${paramCount++}`);
+      values.push(cover_image_url || null);
+    }
+    if (company_size_id !== undefined) {
+      updates.push(`company_size_id = $${paramCount++}`);
+      values.push(company_size_id || null);
+    }
+    if (industry_id !== undefined) {
+      updates.push(`industry_id = $${paramCount++}`);
+      values.push(industry_id || null);
     }
     if (additional_info_id !== undefined) {
       updates.push(`additional_info_id = $${paramCount++}`);
       values.push(additional_info_id);
     }
 
-    updates.push(`update_date = $${paramCount++}`);
+    updates.push(`updated_at = $${paramCount++}`);
     values.push(new Date());
 
     values.push(id);
