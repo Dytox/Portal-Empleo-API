@@ -2,10 +2,6 @@ import z from "zod";
 
 export const createAdditionalInfoSchema = z
   .object({
-    company_profile_id: z.number().int().positive().meta({
-      description: "Company profile ID",
-      example: 1,
-    }),
     info_type: z.string().min(1).max(100).meta({
       description: "Info type",
       example: "mission",
@@ -40,10 +36,6 @@ export const additionalInfoSchema = z
   .object({
     id: z.number().int().positive().meta({
       description: "Additional info ID",
-      example: 1,
-    }),
-    company_profile_id: z.number().int().positive().meta({
-      description: "Company profile ID",
       example: 1,
     }),
     info_type: z.string().meta({
