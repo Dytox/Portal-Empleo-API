@@ -52,7 +52,7 @@ export const createForumPost = async (forumPostData) => {
 
 export const updateForumPost = async (id, forumPostData) => {
   try {
-    const { title, content, category } = forumPostData;
+    const { title, content, category, is_locked, is_hidden } = forumPostData;
     const updates = [];
     const values = [];
     let paramCount = 1;
@@ -68,6 +68,14 @@ export const updateForumPost = async (id, forumPostData) => {
     if (category !== undefined) {
       updates.push(`category = $${paramCount++}`);
       values.push(category || null);
+    }
+    if (is_locked !== undefined) {
+      updates.push(`is_locked = $${paramCount++}`);
+      values.push(is_locked);
+    }
+    if (is_hidden !== undefined) {
+      updates.push(`is_hidden = $${paramCount++}`);
+      values.push(is_hidden);
     }
 
     if (updates.length === 0) {

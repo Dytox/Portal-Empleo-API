@@ -38,6 +38,14 @@ export const updateForumPostSchema = z
       description: "Post category",
       example: "interviews",
     }),
+    is_locked: z.boolean().optional().meta({
+      description: "Whether the post is locked",
+      example: false,
+    }),
+    is_hidden: z.boolean().optional().meta({
+      description: "Whether the post is hidden",
+      example: false,
+    }),
   })
   .meta({
     id: "UpdateForumPostDTO",

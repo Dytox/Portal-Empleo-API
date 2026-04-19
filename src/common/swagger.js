@@ -86,6 +86,29 @@ import {
   updateJobPostApplicationSchema,
   jobPostApplicationSchema,
 } from './schemas/jobpostapplication.schemas.js';
+import {
+  createForumPostSchema,
+  updateForumPostSchema,
+  forumPostSchema,
+} from './schemas/forumpost.schemas.js';
+import {
+  createForumCommentSchema,
+  updateForumCommentSchema,
+  forumCommentSchema,
+} from './schemas/forumcomment.schemas.js';
+import {
+  createReportReasonSchema,
+  reportReasonSchema,
+} from './schemas/reportreason.schemas.js';
+import {
+  createForumReportSchema,
+  updateForumReportSchema,
+  forumReportSchema,
+} from './schemas/forumreport.schemas.js';
+import {
+  createModerationActionSchema,
+  moderationActionSchema,
+} from './schemas/moderationaction.schemas.js';
 
 const swaggerSpec = createDocument({
   openapi: '3.1.0',
@@ -2695,6 +2718,588 @@ const swaggerSpec = createDocument({
           },
           '404': {
             description: 'Job post not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    // Report Reasons
+    '/report-reasons': {
+      get: {
+        tags: ['Report Reasons'],
+        summary: 'Get all report reasons',
+        responses: {
+          '200': {
+            description: 'List of all report reasons',
+            content: {
+              'application/json': {
+                schema: reportReasonSchema.array(),
+              },
+            },
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      post: {
+        tags: ['Report Reasons'],
+        summary: 'Create a new report reason',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: createReportReasonSchema,
+            },
+          },
+          required: true,
+        },
+        responses: {
+          '201': {
+            description: 'Report reason created successfully',
+            content: {
+              'application/json': {
+                schema: reportReasonSchema,
+              },
+            },
+          },
+          '400': {
+            description: 'Validation error',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/report-reasons/{id}': {
+      get: {
+        tags: ['Report Reasons'],
+        summary: 'Get a report reason by ID',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Report reason found',
+            content: {
+              'application/json': {
+                schema: reportReasonSchema,
+              },
+            },
+          },
+          '404': {
+            description: 'Report reason not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      delete: {
+        tags: ['Report Reasons'],
+        summary: 'Delete a report reason',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Report reason deleted successfully',
+          },
+          '404': {
+            description: 'Report reason not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    // Forum Reports
+    '/forum/reports': {
+      get: {
+        tags: ['Forum Reports'],
+        summary: 'Get all forum reports',
+        responses: {
+          '200': {
+            description: 'List of all forum reports',
+            content: {
+              'application/json': {
+                schema: forumReportSchema.array(),
+              },
+            },
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      post: {
+        tags: ['Forum Reports'],
+        summary: 'Create a new forum report',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: createForumReportSchema,
+            },
+          },
+          required: true,
+        },
+        responses: {
+          '201': {
+            description: 'Forum report created successfully',
+            content: {
+              'application/json': {
+                schema: forumReportSchema,
+              },
+            },
+          },
+          '400': {
+            description: 'Validation error',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/forum/reports/{id}': {
+      get: {
+        tags: ['Forum Reports'],
+        summary: 'Get a forum report by ID',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Forum report found',
+            content: {
+              'application/json': {
+                schema: forumReportSchema,
+              },
+            },
+          },
+          '404': {
+            description: 'Forum report not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      put: {
+        tags: ['Forum Reports'],
+        summary: 'Update a forum report',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: updateForumReportSchema,
+            },
+          },
+          required: true,
+        },
+        responses: {
+          '200': {
+            description: 'Forum report updated successfully',
+            content: {
+              'application/json': {
+                schema: forumReportSchema,
+              },
+            },
+          },
+          '404': {
+            description: 'Forum report not found',
+          },
+          '400': {
+            description: 'Validation error',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      delete: {
+        tags: ['Forum Reports'],
+        summary: 'Delete a forum report',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Forum report deleted successfully',
+          },
+          '404': {
+            description: 'Forum report not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/forum/reports/status/{status}': {
+      get: {
+        tags: ['Forum Reports'],
+        summary: 'Get forum reports by status',
+        parameters: [
+          {
+            name: 'status',
+            in: 'path',
+            required: true,
+            schema: { type: 'string', enum: ['pending', 'reviewed', 'dismissed', 'action_taken'] },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of forum reports with the given status',
+            content: {
+              'application/json': {
+                schema: forumReportSchema.array(),
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid status',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/users/{reporterId}/forum/reports': {
+      get: {
+        tags: ['Forum Reports'],
+        summary: 'Get forum reports by reporter ID',
+        parameters: [
+          {
+            name: 'reporterId',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of forum reports by reporter',
+            content: {
+              'application/json': {
+                schema: forumReportSchema.array(),
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid reporter ID',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/forum/posts/{postId}/reports': {
+      get: {
+        tags: ['Forum Reports'],
+        summary: 'Get reports for a specific forum post',
+        parameters: [
+          {
+            name: 'postId',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of reports for the post',
+            content: {
+              'application/json': {
+                schema: forumReportSchema.array(),
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid post ID',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/forum/comments/{commentId}/reports': {
+      get: {
+        tags: ['Forum Reports'],
+        summary: 'Get reports for a specific forum comment',
+        parameters: [
+          {
+            name: 'commentId',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of reports for the comment',
+            content: {
+              'application/json': {
+                schema: forumReportSchema.array(),
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid comment ID',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    // Moderation Actions
+    '/moderation/actions': {
+      get: {
+        tags: ['Moderation Actions'],
+        summary: 'Get all moderation actions',
+        responses: {
+          '200': {
+            description: 'List of all moderation actions',
+            content: {
+              'application/json': {
+                schema: moderationActionSchema.array(),
+              },
+            },
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      post: {
+        tags: ['Moderation Actions'],
+        summary: 'Create a new moderation action',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: createModerationActionSchema,
+            },
+          },
+          required: true,
+        },
+        responses: {
+          '201': {
+            description: 'Moderation action created successfully',
+            content: {
+              'application/json': {
+                schema: moderationActionSchema,
+              },
+            },
+          },
+          '400': {
+            description: 'Validation error',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/moderation/actions/{id}': {
+      get: {
+        tags: ['Moderation Actions'],
+        summary: 'Get a moderation action by ID',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Moderation action found',
+            content: {
+              'application/json': {
+                schema: moderationActionSchema,
+              },
+            },
+          },
+          '404': {
+            description: 'Moderation action not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      delete: {
+        tags: ['Moderation Actions'],
+        summary: 'Delete a moderation action',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Moderation action deleted successfully',
+          },
+          '404': {
+            description: 'Moderation action not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/forum/reports/{reportId}/moderation/actions': {
+      get: {
+        tags: ['Moderation Actions'],
+        summary: 'Get moderation actions for a specific report',
+        parameters: [
+          {
+            name: 'reportId',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of moderation actions for the report',
+            content: {
+              'application/json': {
+                schema: moderationActionSchema.array(),
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid report ID',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/users/{adminId}/moderation/actions': {
+      get: {
+        tags: ['Moderation Actions'],
+        summary: 'Get moderation actions by admin ID',
+        parameters: [
+          {
+            name: 'adminId',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of moderation actions by admin',
+            content: {
+              'application/json': {
+                schema: moderationActionSchema.array(),
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid admin ID',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/users/{targetUserId}/moderation/actions/target': {
+      get: {
+        tags: ['Moderation Actions'],
+        summary: 'Get moderation actions affecting a specific user',
+        parameters: [
+          {
+            name: 'targetUserId',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of moderation actions affecting the user',
+            content: {
+              'application/json': {
+                schema: moderationActionSchema.array(),
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid target user ID',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/moderation/actions/type/{actionType}': {
+      get: {
+        tags: ['Moderation Actions'],
+        summary: 'Get moderation actions by action type',
+        parameters: [
+          {
+            name: 'actionType',
+            in: 'path',
+            required: true,
+            schema: { type: 'string', enum: ['dismiss_report', 'hide_post', 'hide_comment', 'delete_post', 'delete_comment', 'block_user', 'unblock_user', 'warn_user'] },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of moderation actions by type',
+            content: {
+              'application/json': {
+                schema: moderationActionSchema.array(),
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid action type',
           },
           '500': {
             description: 'Server error',

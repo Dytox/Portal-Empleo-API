@@ -38,11 +38,11 @@ export const getForumCommentsByUserId = async (userId) => {
 
 export const createForumComment = async (forumCommentData) => {
   try {
-    const { post_id, user_id, content } = forumCommentData;
+    const { post_id, user_id, content, parent_comment_id } = forumCommentData;
     const result = await pool.query(
-      `INSERT INTO public.forum_comments (post_id, user_id, content) 
-      VALUES ($1, $2, $3) RETURNING *`,
-      [post_id, user_id, content]
+      `INSERT INTO public.forum_comments (post_id, user_id, content, parent_comment_id) 
+      VALUES ($1, $2, $3, $4) RETURNING *`,
+      [post_id, user_id, content, parent_comment_id || null]
     );
     return result.rows[0];
   } catch (err) {
@@ -52,7 +52,7 @@ export const createForumComment = async (forumCommentData) => {
 
 export const updateForumComment = async (id, forumCommentData) => {
   try {
-    const { content } = forumCommentData;
+    const { content, is_hidden } = forumCommentData;
     const updates = [];
     const values = [];
     let paramCount = 1;
@@ -60,6 +60,10 @@ export const updateForumComment = async (id, forumCommentData) => {
     if (content !== undefined) {
       updates.push(`content = $${paramCount++}`);
       values.push(content);
+    }
+    if (is_hidden !== undefined) {
+      updates.push(`is_hidden = $${paramCount++}`);
+      values.push(is_hidden);
     }
 
     if (updates.length === 0) {

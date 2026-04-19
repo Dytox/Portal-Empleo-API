@@ -27,6 +27,9 @@ import jobpostapplicationRouter from './modules/jobpostapplicationModule/routes/
 import notificationRouter from './modules/notificationModule/routes/notification.routes.js';
 import forumpostRouter from './modules/forumpostModule/routes/forumpost.routes.js';
 import forumcommentRouter from './modules/forumcommentModule/routes/forumcomment.routes.js';
+import reportreasonRouter from './modules/reportreasonsModule/routes/reportreason.routes.js';
+import forumreportRouter from './modules/forumreportsModule/routes/forumreport.routes.js';
+import moderationactionRouter from './modules/moderationactionsModule/routes/moderationaction.routes.js';
 import companyreviewRouter from './modules/companyreviewModule/routes/companyreview.routes.js';
 import resourceRouter from './modules/resourceModule/routes/resource.routes.js';
 
@@ -71,6 +74,9 @@ app.use(jobpostapplicationRouter);
 app.use(notificationRouter);
 app.use(forumpostRouter);
 app.use(forumcommentRouter);
+app.use(reportreasonRouter);
+app.use(forumreportRouter);
+app.use(moderationactionRouter);
 app.use(companyreviewRouter);
 app.use(resourceRouter);
 

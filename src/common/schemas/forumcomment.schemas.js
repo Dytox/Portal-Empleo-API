@@ -14,6 +14,10 @@ export const createForumCommentSchema = z
       description: "Comment content",
       example: "Great post! Here's my perspective...",
     }),
+    parent_comment_id: z.number().int().positive().nullable().optional().meta({
+      description: "Parent comment ID (for nested comments)",
+      example: null,
+    }),
   })
   .meta({
     id: "CreateForumCommentDTO",
@@ -25,6 +29,10 @@ export const updateForumCommentSchema = z
     content: z.string().optional().meta({
       description: "Comment content",
       example: "Great post! Here's my perspective...",
+    }),
+    is_hidden: z.boolean().optional().meta({
+      description: "Whether the comment is hidden",
+      example: false,
     }),
   })
   .meta({
@@ -49,6 +57,14 @@ export const forumCommentSchema = z
     content: z.string().meta({
       description: "Comment content",
       example: "Great post! Here's my perspective...",
+    }),
+    parent_comment_id: z.number().int().positive().nullable().meta({
+      description: "Parent comment ID (for nested comments)",
+      example: null,
+    }),
+    is_hidden: z.boolean().meta({
+      description: "Whether the comment is hidden",
+      example: false,
     }),
     created_at: z.string().datetime().meta({
       description: "Creation timestamp",
