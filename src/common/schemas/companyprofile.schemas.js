@@ -6,13 +6,29 @@ export const createCompanyProfileSchema = z
       description: "User ID",
       example: 1,
     }),
-    company_name: z.string().min(1).max(100).meta({
+    company_name: z.string().min(1).max(150).meta({
       description: "Company name",
       example: "TechCorp Inc",
     }),
-    phone: z.string().max(20).optional().meta({
+    phone: z.string().max(30).optional().meta({
       description: "Company phone number",
       example: "+1-234-567-8900",
+    }),
+    location: z.string().max(120).optional().meta({
+      description: "Company location",
+      example: "San Francisco, CA",
+    }),
+    website_url: z.string().url().optional().meta({
+      description: "Company website URL",
+      example: "https://techcorp.com",
+    }),
+    logo_url: z.string().url().optional().meta({
+      description: "Company logo URL",
+      example: "https://techcorp.com/logo.png",
+    }),
+    cover_image_url: z.string().url().optional().meta({
+      description: "Company cover image URL",
+      example: "https://techcorp.com/cover.jpg",
     }),
     industry_id: z.number().int().positive().optional().meta({
       description: "Industry ID",
@@ -20,6 +36,10 @@ export const createCompanyProfileSchema = z
     }),
     company_size_id: z.number().int().positive().optional().meta({
       description: "Company size ID",
+      example: 1,
+    }),
+    additional_info_id: z.number().int().positive().optional().meta({
+      description: "Additional info ID",
       example: 1,
     }),
   })
@@ -30,13 +50,29 @@ export const createCompanyProfileSchema = z
 
 export const updateCompanyProfileSchema = z
   .object({
-    company_name: z.string().min(1).max(100).optional().meta({
+    company_name: z.string().min(1).max(150).optional().meta({
       description: "Company name",
       example: "TechCorp Inc",
     }),
-    tel: z.string().max(20).optional().meta({
+    phone: z.string().max(30).optional().meta({
       description: "Company phone number",
       example: "+1-234-567-8900",
+    }),
+    location: z.string().max(120).optional().meta({
+      description: "Company location",
+      example: "San Francisco, CA",
+    }),
+    website_url: z.string().url().optional().meta({
+      description: "Company website URL",
+      example: "https://techcorp.com",
+    }),
+    logo_url: z.string().url().optional().meta({
+      description: "Company logo URL",
+      example: "https://techcorp.com/logo.png",
+    }),
+    cover_image_url: z.string().url().optional().meta({
+      description: "Company cover image URL",
+      example: "https://techcorp.com/cover.jpg",
     }),
     industry_id: z.number().int().positive().optional().meta({
       description: "Industry ID",
@@ -44,6 +80,10 @@ export const updateCompanyProfileSchema = z
     }),
     company_size_id: z.number().int().positive().optional().meta({
       description: "Company size ID",
+      example: 1,
+    }),
+    additional_info_id: z.number().int().positive().optional().meta({
+      description: "Additional info ID",
       example: 1,
     }),
   })
@@ -66,9 +106,25 @@ export const companyProfileSchema = z
       description: "Company name",
       example: "TechCorp Inc",
     }),
-    tel: z.string().nullable().meta({
+    phone: z.string().nullable().meta({
       description: "Company phone number",
       example: "+1-234-567-8900",
+    }),
+    location: z.string().nullable().meta({
+      description: "Company location",
+      example: "San Francisco, CA",
+    }),
+    website_url: z.string().nullable().meta({
+      description: "Company website URL",
+      example: "https://techcorp.com",
+    }),
+    logo_url: z.string().nullable().meta({
+      description: "Company logo URL",
+      example: "https://techcorp.com/logo.png",
+    }),
+    cover_image_url: z.string().nullable().meta({
+      description: "Company cover image URL",
+      example: "https://techcorp.com/cover.jpg",
     }),
     industry_id: z.number().int().positive().nullable().meta({
       description: "Industry ID",
@@ -76,6 +132,10 @@ export const companyProfileSchema = z
     }),
     company_size_id: z.number().int().positive().nullable().meta({
       description: "Company size ID",
+      example: 1,
+    }),
+    additional_info_id: z.number().int().positive().nullable().meta({
+      description: "Additional info ID",
       example: 1,
     }),
     created_at: z.string().datetime().meta({

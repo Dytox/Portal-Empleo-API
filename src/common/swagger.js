@@ -81,6 +81,11 @@ import {
   updateStatusSchema,
   statusSchema,
 } from './schemas/status.schemas.js';
+import {
+  createJobPostApplicationSchema,
+  updateJobPostApplicationSchema,
+  jobPostApplicationSchema,
+} from './schemas/jobpostapplication.schemas.js';
 
 const swaggerSpec = createDocument({
   openapi: '3.1.0',
@@ -2490,6 +2495,206 @@ const swaggerSpec = createDocument({
           },
           '404': {
             description: 'Status not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    // Job Post Applications
+    '/applications': {
+      get: {
+        tags: ['Job Post Applications'],
+        summary: 'Get all job post applications',
+        responses: {
+          '200': {
+            description: 'List of all job post applications',
+            content: {
+              'application/json': {
+                schema: jobPostApplicationSchema.array(),
+              },
+            },
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      post: {
+        tags: ['Job Post Applications'],
+        summary: 'Create a new job post application',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: createJobPostApplicationSchema,
+            },
+          },
+          required: true,
+        },
+        responses: {
+          '201': {
+            description: 'Application created successfully',
+            content: {
+              'application/json': {
+                schema: jobPostApplicationSchema,
+              },
+            },
+          },
+          '400': {
+            description: 'Validation error or application already exists',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/applications/{id}': {
+      get: {
+        tags: ['Job Post Applications'],
+        summary: 'Get a job post application by ID',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Application found',
+            content: {
+              'application/json': {
+                schema: jobPostApplicationSchema,
+              },
+            },
+          },
+          '404': {
+            description: 'Application not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      put: {
+        tags: ['Job Post Applications'],
+        summary: 'Update a job post application',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: updateJobPostApplicationSchema,
+            },
+          },
+          required: true,
+        },
+        responses: {
+          '200': {
+            description: 'Application updated successfully',
+            content: {
+              'application/json': {
+                schema: jobPostApplicationSchema,
+              },
+            },
+          },
+          '404': {
+            description: 'Application not found',
+          },
+          '400': {
+            description: 'Validation error',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      delete: {
+        tags: ['Job Post Applications'],
+        summary: 'Delete a job post application',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Application deleted successfully',
+          },
+          '404': {
+            description: 'Application not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/profiles/{profileId}/applications': {
+      get: {
+        tags: ['Job Post Applications'],
+        summary: 'Get all applications by profile ID',
+        parameters: [
+          {
+            name: 'profileId',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of applications for the profile',
+            content: {
+              'application/json': {
+                schema: jobPostApplicationSchema.array(),
+              },
+            },
+          },
+          '404': {
+            description: 'Profile not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/job-posts/{jobPostId}/applications': {
+      get: {
+        tags: ['Job Post Applications'],
+        summary: 'Get all applications for a job post',
+        parameters: [
+          {
+            name: 'jobPostId',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of applications for the job post',
+            content: {
+              'application/json': {
+                schema: jobPostApplicationSchema.array(),
+              },
+            },
+          },
+          '404': {
+            description: 'Job post not found',
           },
           '500': {
             description: 'Server error',
