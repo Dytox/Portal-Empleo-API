@@ -2826,6 +2826,403 @@ const swaggerSpec = createDocument({
         },
       },
     },
+    // Forum Posts
+    '/forum/posts': {
+      get: {
+        tags: ['Forum Posts'],
+        summary: 'Get all forum posts',
+        responses: {
+          '200': {
+            description: 'List of all forum posts',
+            content: {
+              'application/json': {
+                schema: forumPostSchema.array(),
+              },
+            },
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      post: {
+        tags: ['Forum Posts'],
+        summary: 'Create a new forum post',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: createForumPostSchema,
+            },
+          },
+          required: true,
+        },
+        responses: {
+          '201': {
+            description: 'Forum post created successfully',
+            content: {
+              'application/json': {
+                schema: forumPostSchema,
+              },
+            },
+          },
+          '400': {
+            description: 'Validation error',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/forum/posts/{id}': {
+      get: {
+        tags: ['Forum Posts'],
+        summary: 'Get a forum post by ID',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Forum post found',
+            content: {
+              'application/json': {
+                schema: forumPostSchema,
+              },
+            },
+          },
+          '404': {
+            description: 'Forum post not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      put: {
+        tags: ['Forum Posts'],
+        summary: 'Update a forum post',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: updateForumPostSchema,
+            },
+          },
+          required: true,
+        },
+        responses: {
+          '200': {
+            description: 'Forum post updated successfully',
+            content: {
+              'application/json': {
+                schema: forumPostSchema,
+              },
+            },
+          },
+          '404': {
+            description: 'Forum post not found',
+          },
+          '400': {
+            description: 'Validation error',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      delete: {
+        tags: ['Forum Posts'],
+        summary: 'Delete a forum post',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Forum post deleted successfully',
+          },
+          '404': {
+            description: 'Forum post not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/users/{userId}/forum/posts': {
+      get: {
+        tags: ['Forum Posts'],
+        summary: 'Get forum posts by user ID',
+        parameters: [
+          {
+            name: 'userId',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of forum posts by user',
+            content: {
+              'application/json': {
+                schema: forumPostSchema.array(),
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid user ID',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/forum/posts/category/{category}': {
+      get: {
+        tags: ['Forum Posts'],
+        summary: 'Get forum posts by category',
+        parameters: [
+          {
+            name: 'category',
+            in: 'path',
+            required: true,
+            schema: { type: 'string' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of forum posts in category',
+            content: {
+              'application/json': {
+                schema: forumPostSchema.array(),
+              },
+            },
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    // Forum Comments
+    '/forum/comments': {
+      get: {
+        tags: ['Forum Comments'],
+        summary: 'Get all forum comments',
+        responses: {
+          '200': {
+            description: 'List of all forum comments',
+            content: {
+              'application/json': {
+                schema: forumCommentSchema.array(),
+              },
+            },
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      post: {
+        tags: ['Forum Comments'],
+        summary: 'Create a new forum comment',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: createForumCommentSchema,
+            },
+          },
+          required: true,
+        },
+        responses: {
+          '201': {
+            description: 'Forum comment created successfully',
+            content: {
+              'application/json': {
+                schema: forumCommentSchema,
+              },
+            },
+          },
+          '400': {
+            description: 'Validation error',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/forum/comments/{id}': {
+      get: {
+        tags: ['Forum Comments'],
+        summary: 'Get a forum comment by ID',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Forum comment found',
+            content: {
+              'application/json': {
+                schema: forumCommentSchema,
+              },
+            },
+          },
+          '404': {
+            description: 'Forum comment not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      put: {
+        tags: ['Forum Comments'],
+        summary: 'Update a forum comment',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: updateForumCommentSchema,
+            },
+          },
+          required: true,
+        },
+        responses: {
+          '200': {
+            description: 'Forum comment updated successfully',
+            content: {
+              'application/json': {
+                schema: forumCommentSchema,
+              },
+            },
+          },
+          '404': {
+            description: 'Forum comment not found',
+          },
+          '400': {
+            description: 'Validation error',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      delete: {
+        tags: ['Forum Comments'],
+        summary: 'Delete a forum comment',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Forum comment deleted successfully',
+          },
+          '404': {
+            description: 'Forum comment not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/forum/posts/{postId}/comments': {
+      get: {
+        tags: ['Forum Comments'],
+        summary: 'Get forum comments by post ID',
+        parameters: [
+          {
+            name: 'postId',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of comments for the post',
+            content: {
+              'application/json': {
+                schema: forumCommentSchema.array(),
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid post ID',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/users/{userId}/forum/comments': {
+      get: {
+        tags: ['Forum Comments'],
+        summary: 'Get forum comments by user ID',
+        parameters: [
+          {
+            name: 'userId',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of comments by user',
+            content: {
+              'application/json': {
+                schema: forumCommentSchema.array(),
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid user ID',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
     // Forum Reports
     '/forum/reports': {
       get: {
