@@ -6,9 +6,21 @@ export const createEducationalInfoSchema = z
       description: "Profile ID",
       example: 1,
     }),
-    degree_id: z.number().int().positive().meta({
-      description: "Degree ID",
+    degree_id: z.number().int().positive().nullable().optional().meta({
+      description: "Degree ID (optional)",
       example: 1,
+    }),
+    institution: z.string().optional().meta({
+      description: "Institution name",
+      example: "Universidad Nacional",
+    }),
+    custom_degree_name: z.string().optional().meta({
+      description: "Custom degree name",
+      example: "Especialización en TI",
+    }),
+    is_current: z.boolean().optional().meta({
+      description: "Is current study",
+      example: false,
     }),
     start_date: z.string().datetime().optional().meta({
       description: "Start date",
@@ -26,15 +38,27 @@ export const createEducationalInfoSchema = z
 
 export const updateEducationalInfoSchema = z
   .object({
-    degree_id: z.number().int().positive().optional().meta({
-      description: "Degree ID",
+    degree_id: z.number().int().positive().nullable().optional().meta({
+      description: "Degree ID (optional)",
       example: 1,
     }),
-    start_date: z.string().datetime().optional().meta({
+    institution: z.string().optional().meta({
+      description: "Institution name",
+      example: "Universidad Nacional",
+    }),
+    custom_degree_name: z.string().optional().meta({
+      description: "Custom degree name",
+      example: "Especialización en TI",
+    }),
+    is_current: z.boolean().optional().meta({
+      description: "Is current study",
+      example: false,
+    }),
+    start_date: z.string().datetime().nullable().optional().meta({
       description: "Start date",
       example: "2018-01-01T00:00:00Z",
     }),
-    end_date: z.string().datetime().optional().meta({
+    end_date: z.string().datetime().nullable().optional().meta({
       description: "End date",
       example: "2022-01-01T00:00:00Z",
     }),
@@ -58,6 +82,18 @@ export const educationalInfoSchema = z
       description: "Degree ID",
       example: 1,
     }),
+    institution: z.string().nullable().meta({
+      description: "Institution name",
+      example: "Universidad Nacional",
+    }),
+    custom_degree_name: z.string().nullable().meta({
+      description: "Custom degree name",
+      example: "Especialización en TI",
+    }),
+    is_current: z.boolean().meta({
+      description: "Is current study",
+      example: false,
+    }),
     start_date: z.string().datetime().nullable().meta({
       description: "Start date",
       example: "2018-01-01T00:00:00Z",
@@ -66,12 +102,12 @@ export const educationalInfoSchema = z
       description: "End date",
       example: "2022-01-01T00:00:00Z",
     }),
-    update_date: z.string().datetime().meta({
-      description: "Update date",
+    updated_at: z.string().datetime().meta({
+      description: "Update timestamp",
       example: "2024-01-01T00:00:00Z",
     }),
-    creation_date: z.string().datetime().meta({
-      description: "Creation date",
+    created_at: z.string().datetime().meta({
+      description: "Creation timestamp",
       example: "2024-01-01T00:00:00Z",
     }),
   })
