@@ -74,6 +74,14 @@ export const forumPostSchema = z
       description: "Post category",
       example: "interviews",
     }),
+    is_locked: z.boolean().meta({
+      description: "Whether the post is locked (comments disabled)",
+      example: false,
+    }),
+    is_hidden: z.boolean().meta({
+      description: "Whether the post is hidden from the forum",
+      example: false,
+    }),
     created_at: z.string().datetime().meta({
       description: "Creation timestamp",
       example: "2024-01-01T00:00:00Z",

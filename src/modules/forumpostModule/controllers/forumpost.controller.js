@@ -63,7 +63,12 @@ export const updateForumPost = async (req, res) => {
     if (!Number.isInteger(Number(id))) {
       return res.status(400).json({ error: 'Invalid ID format' });
     }
+    
+    // Update forum post - supports closing functionality:
+    // - is_locked: true to prevent new comments on this post
+    // - is_hidden: true to hide the post from the forum
     const post = await forumPostService.updateForumPost(Number(id), req.body);
+    
     if (!post) {
       return res.status(404).json({ error: 'Forum Post not found' });
     }

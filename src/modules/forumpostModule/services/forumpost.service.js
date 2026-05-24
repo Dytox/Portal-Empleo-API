@@ -72,10 +72,12 @@ export const updateForumPost = async (id, forumPostData) => {
     if (is_locked !== undefined) {
       updates.push(`is_locked = $${paramCount++}`);
       values.push(is_locked);
+      // is_locked = true: prevents new comments from being added to this post
     }
     if (is_hidden !== undefined) {
       updates.push(`is_hidden = $${paramCount++}`);
       values.push(is_hidden);
+      // is_hidden = true: hides the post from the forum listing (soft delete)
     }
 
     if (updates.length === 0) {
