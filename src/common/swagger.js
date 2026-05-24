@@ -2905,7 +2905,8 @@ const swaggerSpec = createDocument({
       },
       put: {
         tags: ['Forum Posts'],
-        summary: 'Update a forum post',
+        summary: 'Update a forum post (supports closing with is_locked or is_hidden)',
+        description: 'Update forum post content or status. Use is_locked: true to prevent new comments, is_hidden: true to hide from forum listing (soft delete).',
         parameters: [
           {
             name: 'id',
@@ -3697,6 +3698,200 @@ const swaggerSpec = createDocument({
           },
           '400': {
             description: 'Invalid action type',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/resources': {
+      get: {
+        tags: ['Resources'],
+        summary: 'Get all resources',
+        responses: {
+          '200': {
+            description: 'List of all resources',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      id: { type: 'integer' },
+                      title: { type: 'string' },
+                      description: { type: 'string' },
+                      resource_type: { type: 'string' },
+                      url: { type: 'string' },
+                      image_url: { type: 'string' },
+                      created_at: { type: 'string', format: 'date-time' },
+                    },
+                  },
+                },
+              },
+            },
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      post: {
+        tags: ['Resources'],
+        summary: 'Create a new resource',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['title', 'url'],
+                properties: {
+                  title: { type: 'string', maxLength: 150 },
+                  description: { type: 'string' },
+                  resource_type: { type: 'string' },
+                  url: { type: 'string', format: 'uri' },
+                  image_url: { type: 'string', format: 'uri' },
+                },
+              },
+            },
+          },
+          required: true,
+        },
+        responses: {
+          '201': {
+            description: 'Resource created successfully',
+          },
+          '400': {
+            description: 'Validation error',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/resources/{id}': {
+      get: {
+        tags: ['Resources'],
+        summary: 'Get a resource by ID',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Resource found',
+          },
+          '404': {
+            description: 'Resource not found',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      put: {
+        tags: ['Resources'],
+        summary: 'Update a resource',
+        description: 'Update resource details (title, description, URL, etc.). Note: Resources can only be deleted, not closed/hidden.',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  title: { type: 'string', maxLength: 150 },
+                  description: { type: 'string' },
+                  resource_type: { type: 'string' },
+                  url: { type: 'string', format: 'uri' },
+                  image_url: { type: 'string', format: 'uri' },
+                },
+              },
+            },
+          },
+          required: true,
+        },
+        responses: {
+          '200': {
+            description: 'Resource updated successfully',
+          },
+          '404': {
+            description: 'Resource not found',
+          },
+          '400': {
+            description: 'Validation error',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+      delete: {
+        tags: ['Resources'],
+        summary: 'Delete a resource',
+        description: 'Permanently delete a resource. This is the only way to remove resources (no soft delete).',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Resource deleted successfully',
+          },
+          '404': {
+            description: 'Resource not found',
+          },
+          '400': {
+            description: 'Invalid ID format',
+          },
+          '500': {
+            description: 'Server error',
+          },
+        },
+      },
+    },
+    '/resources/type/{type}': {
+      get: {
+        tags: ['Resources'],
+        summary: 'Get resources by type',
+        parameters: [
+          {
+            name: 'type',
+            in: 'path',
+            required: true,
+            schema: { type: 'string' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'List of resources by type',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                  },
+                },
+              },
+            },
           },
           '500': {
             description: 'Server error',
