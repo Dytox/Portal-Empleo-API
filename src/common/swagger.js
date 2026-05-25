@@ -109,6 +109,11 @@ import {
   createModerationActionSchema,
   moderationActionSchema,
 } from './schemas/moderationaction.schemas.js';
+import {
+  createResourceSchema,
+  updateResourceSchema,
+  resourceSchema,
+} from './schemas/resource.schemas.js';
 
 const swaggerSpec = createDocument({
   openapi: '3.1.0',
@@ -3714,21 +3719,7 @@ const swaggerSpec = createDocument({
             description: 'List of all resources',
             content: {
               'application/json': {
-                schema: {
-                  type: 'array',
-                  items: {
-                    type: 'object',
-                    properties: {
-                      id: { type: 'integer' },
-                      title: { type: 'string' },
-                      description: { type: 'string' },
-                      resource_type: { type: 'string' },
-                      url: { type: 'string' },
-                      image_url: { type: 'string' },
-                      created_at: { type: 'string', format: 'date-time' },
-                    },
-                  },
-                },
+                schema: resourceSchema.array(),
               },
             },
           },
@@ -3743,17 +3734,7 @@ const swaggerSpec = createDocument({
         requestBody: {
           content: {
             'application/json': {
-              schema: {
-                type: 'object',
-                required: ['title', 'url'],
-                properties: {
-                  title: { type: 'string', maxLength: 150 },
-                  description: { type: 'string' },
-                  resource_type: { type: 'string' },
-                  url: { type: 'string', format: 'uri' },
-                  image_url: { type: 'string', format: 'uri' },
-                },
-              },
+              schema: createResourceSchema,
             },
           },
           required: true,
@@ -3761,6 +3742,11 @@ const swaggerSpec = createDocument({
         responses: {
           '201': {
             description: 'Resource created successfully',
+            content: {
+              'application/json': {
+                schema: resourceSchema,
+              },
+            },
           },
           '400': {
             description: 'Validation error',
@@ -3786,6 +3772,11 @@ const swaggerSpec = createDocument({
         responses: {
           '200': {
             description: 'Resource found',
+            content: {
+              'application/json': {
+                schema: resourceSchema,
+              },
+            },
           },
           '404': {
             description: 'Resource not found',
@@ -3810,16 +3801,7 @@ const swaggerSpec = createDocument({
         requestBody: {
           content: {
             'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  title: { type: 'string', maxLength: 150 },
-                  description: { type: 'string' },
-                  resource_type: { type: 'string' },
-                  url: { type: 'string', format: 'uri' },
-                  image_url: { type: 'string', format: 'uri' },
-                },
-              },
+              schema: updateResourceSchema,
             },
           },
           required: true,
@@ -3827,6 +3809,11 @@ const swaggerSpec = createDocument({
         responses: {
           '200': {
             description: 'Resource updated successfully',
+            content: {
+              'application/json': {
+                schema: resourceSchema,
+              },
+            },
           },
           '404': {
             description: 'Resource not found',
@@ -3884,12 +3871,7 @@ const swaggerSpec = createDocument({
             description: 'List of resources by type',
             content: {
               'application/json': {
-                schema: {
-                  type: 'array',
-                  items: {
-                    type: 'object',
-                  },
-                },
+                schema: resourceSchema.array(),
               },
             },
           },
